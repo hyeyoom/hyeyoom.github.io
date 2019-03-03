@@ -8,7 +8,7 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>개발기록</description>
-    <pubDate>Sun, 03 Mar 2019 04:21:55 GMT</pubDate>
+    <pubDate>Sun, 03 Mar 2019 04:35:29 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -25,7 +25,7 @@
       
       </description>
       
-      <content:encoded><![CDATA[<h1 id="워드프레스에서-Hexo로"><a href="#워드프레스에서-Hexo로" class="headerlink" title="워드프레스에서 Hexo로"></a>워드프레스에서 Hexo로</h1><p>회사는 바쁘고 블로그 글 정리할 시간은 없었다.<br>그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 <code>Hexo</code>를 쓰기로 했다.  </p><p>원래 사용하고 있던 워드프레스는 <a href="https://www.vultr.com/" rel="external nofollow noopener noreferrer" target="_blank"><code>Vultr</code></a>에서 한 달에 <code>20달러</code>를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.  </p><p>개인적으로 사용하던 <code>gitlab</code>레포와 <code>워드프레스</code>를 정리하고 깃헙으로 돌아왔다.  </p><h1 id="Hexo를-사용하는-이유"><a href="#Hexo를-사용하는-이유" class="headerlink" title="Hexo를 사용하는 이유"></a>Hexo를 사용하는 이유</h1><p>뭐 별건 없다.  </p><ul><li>사용 방법이 간단함</li><li><code>Jekyll</code>을 사용해본 경험이 있음</li><li>평소에 글을 마크다운으로 적음</li><li>블로그는 꾸준히 운영하고 싶음</li></ul><p>이런 이유로 선택</p><p>이 글을 왜적냐고? 음 ㅇㅅㅇ; 텅 비우긴 애매해서 그래</p>]]></content:encoded>
+      <content:encoded><![CDATA[<h1 id="워드프레스에서-Hexo로"><a href="#워드프레스에서-Hexo로" class="headerlink" title="워드프레스에서 Hexo로"></a>워드프레스에서 Hexo로</h1><p>회사는 바쁘고 블로그 글 정리할 시간은 없었다.<br>그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 <code>Hexo</code>를 쓰기로 했다.  </p><p>원래 사용하고 있던 워드프레스는 <a href="https://www.vultr.com/" rel="external nofollow noopener noreferrer" target="_blank"><code>Vultr</code></a>에서 한 달에 <code>20달러</code>를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.  </p><p>개인적으로 사용하던 <code>gitlab</code>레포와 <code>워드프레스</code>를 정리하고 깃헙으로 돌아왔다.  </p><h1 id="Hexo를-사용하는-이유"><a href="#Hexo를-사용하는-이유" class="headerlink" title="Hexo를 사용하는 이유"></a>Hexo를 사용하는 이유</h1><p>뭐 별건 없다.  </p><ul><li>사용 방법이 간단함</li><li><code>Jekyll</code>을 사용해본 경험이 있음</li><li>평소에 글을 마크다운으로 적음</li><li>블로그는 꾸준히 운영하고 싶음</li></ul><p>이런 이유로 선택</p><p>이 글을 왜적냐고? 텅 비우긴 애매해서 그래</p>]]></content:encoded>
       
       <comments>https://hyeyoom.github.io/2019/03/03/first-post/#disqus_thread</comments>
     </item>
