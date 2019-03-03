@@ -8,8 +8,28 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>기록은 기억을 지배한다</description>
-    <pubDate>Sun, 03 Mar 2019 09:59:53 GMT</pubDate>
+    <pubDate>Sun, 03 Mar 2019 11:08:39 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>MockMvc가 Autowired되지 않는 경우</title>
+      <link>https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/</link>
+      <guid>https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/</guid>
+      <pubDate>Sun, 03 Mar 2019 11:03:18 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;h1 id=&quot;개요&quot;&gt;&lt;a href=&quot;#개요&quot; class=&quot;headerlink&quot; title=&quot;개요&quot;&gt;&lt;/a&gt;개요&lt;/h1&gt;&lt;p&gt;스프링에서 &lt;code&gt;MockMvc&lt;/code&gt;가 &lt;code&gt;@Autowired&lt;/code&gt;가 안되는 경우&lt;/p&gt;
+&lt;figur
+        
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h1 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h1><p>스프링에서 <code>MockMvc</code>가 <code>@Autowired</code>가 안되는 경우</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AutoConfigureMockMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookControllerTest</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 생략</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>의존성 중 <code>spring-boot-test-autoconfigure</code>의 <code>spring.factories</code>를 참고하면 이해가 된다.<br>하지만 가급적 <code>MockMvc</code>는 사용하지 않는 것이 좋다.  </p>]]></content:encoded>
+      
+      <comments>https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>first post</title>

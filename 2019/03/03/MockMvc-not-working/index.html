@@ -3,24 +3,28 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
 
-    <link rel="canonical" href="https://hyeyoom.github.io/archives/">
+    <link rel="canonical" href="https://hyeyoom.github.io/2019/03/03/mockmvc-not-working/">
     
 
     
-    <title>Archive | dev.log</title>
+    <title>MockMvc가 Autowired되지 않는 경우 | dev.log</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta name="description" content="기록은 기억을 지배한다">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dev.log">
-<meta property="og:url" content="https://hyeyoom.github.io/archives/index.html">
+        <meta name="keywords" content="unittest">
+    
+    <meta name="description" content="개요스프링에서 MockMvc가 @Autowired가 안되는 경우 1234@AutoConfigureMockMvcpublic class BookControllerTest &amp;#123;    // 생략&amp;#125; 의존성 중 spring-boot-test-autoconfigure의 spring.factories를 참고하면 이해가 된다.하지만 가급적 MockMvc는">
+<meta name="keywords" content="unittest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MockMvc가 Autowired되지 않는 경우">
+<meta property="og:url" content="https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/index.html">
 <meta property="og:site_name" content="dev.log">
-<meta property="og:description" content="기록은 기억을 지배한다">
+<meta property="og:description" content="개요스프링에서 MockMvc가 @Autowired가 안되는 경우 1234@AutoConfigureMockMvcpublic class BookControllerTest &amp;#123;    // 생략&amp;#125; 의존성 중 spring-boot-test-autoconfigure의 spring.factories를 참고하면 이해가 된다.하지만 가급적 MockMvc는">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-03-03T11:08:39.801Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dev.log">
-<meta name="twitter:description" content="기록은 기억을 지배한다">
+<meta name="twitter:title" content="MockMvc가 Autowired되지 않는 경우">
+<meta name="twitter:description" content="개요스프링에서 MockMvc가 @Autowired가 안되는 경우 1234@AutoConfigureMockMvcpublic class BookControllerTest &amp;#123;    // 생략&amp;#125; 의존성 중 spring-boot-test-autoconfigure의 spring.factories를 참고하면 이해가 된다.하지만 가급적 MockMvc는">
     
 
     
@@ -147,85 +151,155 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>Archive
+    <a class="page-title-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/dev/misc/">misc</a>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-MockMvc-not-working" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/dev/misc/">misc</a>
-            </div>
-            <div class="date"><time datetime="2019-03-03T11:03:18.000Z" itemprop="datePublished">2019-03-03</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/03/03/MockMvc-not-working/">MockMvc가 Autowired되지 않는 경우</a>
+        MockMvc가 Autowired되지 않는 경우
         </h1>
     
 
-        <p class="article-excerpt">
-            개요스프링에서 MockMvc가 @Autowired가 안되는 경우
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2019/03/03/MockMvc-not-working/" class="article-date">
+            <span>🗓</span>
+            <time datetime="2019-03-03T11:03:18.000Z" itemprop="datePublished">2019-03-03</time>
+        </a>
+    </div>
+
+                <span class="reading-time">
+  ⏱ 예상 소요시간 - [1 분]
+</span>
+		        
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/unittest/">unittest</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h1><p>스프링에서 <code>MockMvc</code>가 <code>@Autowired</code>가 안되는 경우</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AutoConfigureMockMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookControllerTest</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 생략</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>의존성 중 <code>spring-boot-test-autoconfigure</code>의 <code>spring.factories</code>를 참고하면 이해가 된다.<br>하지만 가급적 <code>MockMvc</code>는 사용하지 않는 것이 좋다.  </p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/" data-id="cjsst51k60000id8hh2hgttmi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "hyeyoom"
+        },
+        "headline": "MockMvc가 Autowired되지 않는 경우",
+        "image": "https://hyeyoom.github.io",
+        "keywords": "unittest",
+        "genre": "dev misc",
+        "datePublished": "2019-03-03",
+        "dateCreated": "2019-03-03",
+        "dateModified": "2019-03-03",
+        "url": "https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/",
+        "description": "개요스프링에서 MockMvc가 @Autowired가 안되는 경우
 1234@AutoConfigureMockMvcpublic class BookControllerTest &#123;    // 생략&#125;
-의존성 중 spring-boot-test-autoconfigure의 spring.factories를 참고하면 이해가 된다.하지만 가급적 MockMvc는 
-        </p>
-    </div>
+의존성 중 spring-boot-test-autoconfigure의 spring.factories를 참고하면 이해가 된다.하지만 가급적 MockMvc는 "
+        "wordCount": 49
+    }
+</script>
+
 </article>
-    
 
+    <section id="comments">
     
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/hyeyoom/">hyeyoom</a>
-            </div>
-            <div class="date"><time datetime="2019-03-03T04:07:25.000Z" itemprop="datePublished">2019-03-03</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2019/03/03/first-post/">first post</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            워드프레스에서 Hexo로회사는 바쁘고 블로그 글 정리할 시간은 없었다.그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 Hexo를 쓰기로 했다.  
-원래 사용하고 있던 워드프레스는 Vultr에서 한 달에 20달러를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.  
-개인적으로
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
 
-
-    </div></section>
+    
+    </section>
 
 
 
@@ -255,6 +329,19 @@ ga('send', 'pageview');
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/03/03/first-post/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">first post</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -381,11 +468,13 @@ ga('send', 'pageview');
     var disqus_shortname = 'hyeyoomlog';
     
     
+    var disqus_url = 'https://hyeyoom.github.io/2019/03/03/MockMvc-not-working/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
