@@ -3,27 +3,24 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
 
-    <link rel="canonical" href="https://hyeyoom.github.io/2019/03/03/first-post/">
+    <link rel="canonical" href="https://hyeyoom.github.io/tags/logging/">
     
 
     
-    <title>first post | dev.log</title>
+    <title>Tag: logging | dev.log</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content>
-    
-    <meta name="description" content="워드프레스에서 Hexo로회사는 바쁘고 블로그 글 정리할 시간은 없었다.그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 Hexo를 쓰기로 했다.   원래 사용하고 있던 워드프레스는 Vultr에서 한 달에 20달러를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.   개인적으로">
-<meta property="og:type" content="article">
-<meta property="og:title" content="first post">
-<meta property="og:url" content="https://hyeyoom.github.io/2019/03/03/first-post/index.html">
+    <meta name="description" content="기록은 기억을 지배한다">
+<meta property="og:type" content="website">
+<meta property="og:title" content="dev.log">
+<meta property="og:url" content="https://hyeyoom.github.io/tags/logging/index.html">
 <meta property="og:site_name" content="dev.log">
-<meta property="og:description" content="워드프레스에서 Hexo로회사는 바쁘고 블로그 글 정리할 시간은 없었다.그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 Hexo를 쓰기로 했다.   원래 사용하고 있던 워드프레스는 Vultr에서 한 달에 20달러를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.   개인적으로">
+<meta property="og:description" content="기록은 기억을 지배한다">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-16T12:23:50.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="first post">
-<meta name="twitter:description" content="워드프레스에서 Hexo로회사는 바쁘고 블로그 글 정리할 시간은 없었다.그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 Hexo를 쓰기로 했다.   원래 사용하고 있던 워드프레스는 Vultr에서 한 달에 20달러를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.   개인적으로">
+<meta name="twitter:title" content="dev.log">
+<meta name="twitter:description" content="기록은 기억을 지배한다">
     
 
     
@@ -150,159 +147,62 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/thoughts/">thoughts</a>
+    <i class="icon fa fa-tag"></i>Tag: <em>logging</em>
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            <article id="post-first-post" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
+                            
+
+    
+    
         
-            <header class="article-header">
-                
+        
+        <section class="archives-wrap">
+            <div class="archive-year-wrap">
+                <a href="/archives/2019" class="archive-year"><i class="icon fa fa-calendar-o"></i>2019</a>
+            </div>
+            <div class="archives">
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/dev/spring/">spring</a>
+            </div>
+            <div class="date"><time datetime="2019-03-16T12:32:55.000Z" itemprop="datePublished">2019-03-16</time></div>
+        </div>
+        
     
         <h1 class="article-title" itemprop="name">
-        first post
+        <a href="/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/">How to log all client ip addresses in Spring</a>
         </h1>
     
 
-            </header>
-        
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2019/03/03/first-post/" class="article-date">
-            <span>🗓</span>
-            <time datetime="2019-03-03T04:07:25.000Z" itemprop="datePublished">2019-03-03</time>
-        </a>
+        <p class="article-excerpt">
+            Intro스프링에서 요청한 클라이언트의 IP를 로그로 기록하는 방법에 대해 정리한다.
+여기서는 다음을 알고 있다고 가정한다.
+
+인터셉터
+AOP
+slf4j, logback 및 설정 방법
+MDC(Mapped Diagnostic Context)
+
+1. Approach일반적으로 logback을 사용해서 로그를 기록하면 클라이언트 IP는 보이지 않는다. 따라서 다음
+        </p>
     </div>
-
-                <span class="reading-time">
-  ⏱ 예상 소요시간 - [1 분]
-</span>
-		        
-
-                
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-            <h1 id="워드프레스에서-Hexo로"><a href="#워드프레스에서-Hexo로" class="headerlink" title="워드프레스에서 Hexo로"></a>워드프레스에서 Hexo로</h1><p>회사는 바쁘고 블로그 글 정리할 시간은 없었다.<br>그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 <code>Hexo</code>를 쓰기로 했다.  </p>
-<p>원래 사용하고 있던 워드프레스는 <a href="https://www.vultr.com/" rel="external nofollow noopener noreferrer" target="_blank"><code>Vultr</code></a>에서 한 달에 <code>20달러</code>를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.  </p>
-<p>개인적으로 사용하던 <code>gitlab</code>레포와 <code>워드프레스</code>를 정리하고 깃헙으로 돌아왔다.  </p>
-<h1 id="Hexo를-사용하는-이유"><a href="#Hexo를-사용하는-이유" class="headerlink" title="Hexo를 사용하는 이유"></a>Hexo를 사용하는 이유</h1><p>뭐 별건 없다.  </p>
-<ul>
-<li>사용 방법이 간단함</li>
-<li><code>Jekyll</code>을 사용해본 경험이 있음</li>
-<li>평소에 글을 마크다운으로 적음</li>
-<li>블로그는 꾸준히 운영하고 싶음</li>
-</ul>
-<p>이런 이유로 선택</p>
-<p>이 글을 왜적냐고? 텅 비우긴 애매해서 그래</p>
-
-        </div>
-        <footer class="article-footer">
-            
-
-
-
-    <a data-url="https://hyeyoom.github.io/2019/03/03/first-post/" data-id="cjtbl4e9c0006618h3gtslkjs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-        </footer>
-    </div>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "author": {
-            "@type": "Person",
-            "name": "hyeyoom"
-        },
-        "headline": "first post",
-        "image": "https://hyeyoom.github.io",
-        "keywords": "",
-        "genre": "thoughts",
-        "datePublished": "2019-03-03",
-        "dateCreated": "2019-03-03",
-        "dateModified": "2019-03-16",
-        "url": "https://hyeyoom.github.io/2019/03/03/first-post/",
-        "description": "워드프레스에서 Hexo로회사는 바쁘고 블로그 글 정리할 시간은 없었다.그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 Hexo를 쓰기로 했다.  
-원래 사용하고 있던 워드프레스는 Vultr에서 한 달에 20달러를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.  
-개인적으로"
-        "wordCount": 95
-    }
-</script>
-
 </article>
-
-    <section id="comments">
     
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
+        </div>
     
-    </section>
+
+
+    </div></section>
 
 
 
@@ -332,23 +232,6 @@ ga('send', 'pageview');
             
         </ul>
     </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2019/03/03/MockMvc-not-working/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">newer</strong>
-        <p class="article-nav-title">
-        
-            MockMvc가 Autowired되지 않는 경우
-        
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
-    </a>
-    
-    
-</nav>
-
     
     <div class="widgets-container">
         
@@ -484,13 +367,11 @@ ga('send', 'pageview');
     var disqus_shortname = 'hyeyoomlog';
     
     
-    var disqus_url = 'https://hyeyoom.github.io/2019/03/03/first-post/';
-    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>

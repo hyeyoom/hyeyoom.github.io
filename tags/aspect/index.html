@@ -3,18 +3,18 @@
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
 
-    <link rel="canonical" href="https://hyeyoom.github.io/categories/hyeyoom/">
+    <link rel="canonical" href="https://hyeyoom.github.io/tags/aspect/">
     
 
     
-    <title>Category: hyeyoom | dev.log</title>
+    <title>Tag: aspect | dev.log</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="description" content="기록은 기억을 지배한다">
 <meta property="og:type" content="website">
 <meta property="og:title" content="dev.log">
-<meta property="og:url" content="https://hyeyoom.github.io/categories/hyeyoom/index.html">
+<meta property="og:url" content="https://hyeyoom.github.io/tags/aspect/index.html">
 <meta property="og:site_name" content="dev.log">
 <meta property="og:description" content="기록은 기억을 지배한다">
 <meta property="og:locale" content="en">
@@ -88,7 +88,7 @@ ga('send', 'pageview');
                                     <a class="main-nav-list-link" href="/">Home</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/">dev</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/misc/">misc</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/hyeyoom/">hyeyoom</a></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/">dev</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/misc/">misc</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/spring/">spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/thoughts/">thoughts</a></li></ul>
                                     
                                 <li class="main-nav-list-item">
                                     <a class="main-nav-list-link" href="/about/index.html">About</a>
@@ -147,7 +147,7 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-folder-open"></i>Category: <em class="page-title-link">hyeyoom</em>
+    <i class="icon fa fa-tag"></i>Tag: <em>aspect</em>
     </h1>
 </div>
 
@@ -173,21 +173,27 @@ ga('send', 'pageview');
         
         <div class="article-meta">
             <div class="category">
-            <a class="article-category-link" href="/categories/hyeyoom/">hyeyoom</a>
+            <a class="article-category-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/dev/spring/">spring</a>
             </div>
-            <div class="date"><time datetime="2019-03-03T04:07:25.000Z" itemprop="datePublished">2019-03-03</time></div>
+            <div class="date"><time datetime="2019-03-16T12:32:55.000Z" itemprop="datePublished">2019-03-16</time></div>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2019/03/03/first-post/">first post</a>
+        <a href="/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/">How to log all client ip addresses in Spring</a>
         </h1>
     
 
         <p class="article-excerpt">
-            워드프레스에서 Hexo로회사는 바쁘고 블로그 글 정리할 시간은 없었다.그래도 공부는 멈추지 않고 마크다운으로 틈나면 정리를 했었는데 그런 이유로 Hexo를 쓰기로 했다.  
-원래 사용하고 있던 워드프레스는 Vultr에서 한 달에 20달러를 지불하고 사용하고 있었는데 글이 한달에 한 개 올라오면 많이 올라올 지경이여서 이를 사용하기로 결심했다.  
-개인적으로
+            Intro스프링에서 요청한 클라이언트의 IP를 로그로 기록하는 방법에 대해 정리한다.
+여기서는 다음을 알고 있다고 가정한다.
+
+인터셉터
+AOP
+slf4j, logback 및 설정 방법
+MDC(Mapped Diagnostic Context)
+
+1. Approach일반적으로 logback을 사용해서 로그를 기록하면 클라이언트 IP는 보이지 않는다. 따라서 다음
         </p>
     </div>
 </article>
@@ -197,7 +203,6 @@ ga('send', 'pageview');
 
 
     </div></section>
-
 
 
 
@@ -243,6 +248,15 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/dev/spring/">spring</a></p>
+                            <p class="item-title"><a href="/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/" class="title">How to log all client ip addresses in Spring</a></p>
+                            <p class="item-date"><time datetime="2019-03-16T12:32:55.000Z" itemprop="datePublished">2019-03-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/dev/misc/">misc</a></p>
                             <p class="item-title"><a href="/2019/03/03/MockMvc-not-working/" class="title">MockMvc가 Autowired되지 않는 경우</a></p>
                             <p class="item-date"><time datetime="2019-03-03T11:03:18.000Z" itemprop="datePublished">2019-03-03</time></p>
@@ -252,7 +266,7 @@ ga('send', 'pageview');
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/hyeyoom/">hyeyoom</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/thoughts/">thoughts</a></p>
                             <p class="item-title"><a href="/2019/03/03/first-post/" class="title">first post</a></p>
                             <p class="item-date"><time datetime="2019-03-03T04:07:25.000Z" itemprop="datePublished">2019-03-03</time></p>
                         </div>
@@ -267,7 +281,7 @@ ga('send', 'pageview');
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/">dev</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/misc/">misc</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hyeyoom/">hyeyoom</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/">dev</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/misc/">misc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dev/spring/">spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/spring/snippet/">snippet</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/thoughts/">thoughts</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -277,7 +291,7 @@ ga('send', 'pageview');
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">2</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -287,7 +301,7 @@ ga('send', 'pageview');
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aop/">aop</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aspect/">aspect</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logback/">logback</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logging/">logging</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/slf4j/">slf4j</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/unittest/">unittest</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -297,7 +311,7 @@ ga('send', 'pageview');
     <div class="widget-wrap widget-float">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/unittest/" style="font-size: 10px;">unittest</a>
+            <a href="/tags/aop/" style="font-size: 10px;">aop</a> <a href="/tags/aspect/" style="font-size: 10px;">aspect</a> <a href="/tags/logback/" style="font-size: 10px;">logback</a> <a href="/tags/logging/" style="font-size: 10px;">logging</a> <a href="/tags/slf4j/" style="font-size: 10px;">slf4j</a> <a href="/tags/unittest/" style="font-size: 10px;">unittest</a>
         </div>
     </div>
 
