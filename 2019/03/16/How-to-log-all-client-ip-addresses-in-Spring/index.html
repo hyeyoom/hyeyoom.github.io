@@ -11,17 +11,17 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-        <meta name="keywords" content="logging,aop,aspect,logback,slf4j">
+        <meta name="keywords" content="aop,aspect,logback,logging,slf4j">
     
     <meta name="description" content="Intro스프링에서 요청한 클라이언트의 IP를 로그로 기록하는 방법에 대해 정리한다. 여기서는 다음을 알고 있다고 가정한다.  인터셉터 AOP slf4j, logback 및 설정 방법 MDC(Mapped Diagnostic Context)  1. Approach일반적으로 logback을 사용해서 로그를 기록하면 클라이언트 IP는 보이지 않는다. 따라서 다음">
-<meta name="keywords" content="logging,aop,aspect,logback,slf4j">
+<meta name="keywords" content="aop,aspect,logback,logging,slf4j">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to log all client ip addresses in Spring">
 <meta property="og:url" content="https://hyeyoom.github.io/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/index.html">
 <meta property="og:site_name" content="dev.log">
 <meta property="og:description" content="Intro스프링에서 요청한 클라이언트의 IP를 로그로 기록하는 방법에 대해 정리한다. 여기서는 다음을 알고 있다고 가정한다.  인터셉터 AOP slf4j, logback 및 설정 방법 MDC(Mapped Diagnostic Context)  1. Approach일반적으로 logback을 사용해서 로그를 기록하면 클라이언트 IP는 보이지 않는다. 따라서 다음">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-16T14:25:32.665Z">
+<meta property="og:updated_time" content="2019-03-16T14:29:51.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to log all client ip addresses in Spring">
 <meta name="twitter:description" content="Intro스프링에서 요청한 클라이언트의 IP를 로그로 기록하는 방법에 대해 정리한다. 여기서는 다음을 알고 있다고 가정한다.  인터셉터 AOP slf4j, logback 및 설정 방법 MDC(Mapped Diagnostic Context)  1. Approach일반적으로 logback을 사용해서 로그를 기록하면 클라이언트 IP는 보이지 않는다. 따라서 다음">
@@ -92,7 +92,7 @@ ga('send', 'pageview');
                                     <a class="main-nav-list-link" href="/">Home</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/">dev</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/misc/">misc</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/spring/">spring</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/thoughts/">thoughts</a></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/">dev</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/dev/misc/">misc</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/spring/">spring</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/spring/snippet/">snippet</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/thoughts/">thoughts</a></li></ul>
                                     
                                 <li class="main-nav-list-item">
                                     <a class="main-nav-list-link" href="/about/index.html">About</a>
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                         <div class="main-body-header">
     <h1 class="header">
     
-    <a class="page-title-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/dev/spring/">spring</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/dev/spring/snippet/">snippet</a>
+    <a class="page-title-link" href="/categories/spring/">spring</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/spring/snippet/">snippet</a>
     </h1>
 </div>
 
@@ -175,7 +175,7 @@ ga('send', 'pageview');
     <div class="article-date">
         <a href="/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/" class="article-date">
             <span>🗓</span>
-            <time datetime="2019-03-16T12:32:55.000Z" itemprop="datePublished">2019-03-16</time>
+            <time datetime="2019-03-16T14:28:30.000Z" itemprop="datePublished">2019-03-16</time>
         </a>
     </div>
 
@@ -238,7 +238,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="https://hyeyoom.github.io/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/" data-id="cjtbl4e8y0000618h0r9aln2r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://hyeyoom.github.io/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/" data-id="cjtblezsn0004mu8hf8cm4d5g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -310,8 +310,8 @@ ga('send', 'pageview');
         },
         "headline": "How to log all client ip addresses in Spring",
         "image": "https://hyeyoom.github.io",
-        "keywords": "logging aop aspect logback slf4j",
-        "genre": "dev spring snippet",
+        "keywords": "aop aspect logback logging slf4j",
+        "genre": "spring snippet",
         "datePublished": "2019-03-16",
         "dateCreated": "2019-03-16",
         "dateModified": "2019-03-16",
@@ -398,9 +398,9 @@ MDC(Mapped Diagnostic Context)
                     <li>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/dev/">dev</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/dev/spring/">spring</a></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/spring/">spring</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/spring/snippet/">snippet</a></p>
                             <p class="item-title"><a href="/2019/03/16/How-to-log-all-client-ip-addresses-in-Spring/" class="title">How to log all client ip addresses in Spring</a></p>
-                            <p class="item-date"><time datetime="2019-03-16T12:32:55.000Z" itemprop="datePublished">2019-03-16</time></p>
+                            <p class="item-date"><time datetime="2019-03-16T14:28:30.000Z" itemprop="datePublished">2019-03-16</time></p>
                         </div>
                     </li>
                 
@@ -431,7 +431,7 @@ MDC(Mapped Diagnostic Context)
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/">dev</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/misc/">misc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/dev/spring/">spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/spring/snippet/">snippet</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/thoughts/">thoughts</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/">dev</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/dev/misc/">misc</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring/">spring</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/spring/snippet/">snippet</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/thoughts/">thoughts</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
