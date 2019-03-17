@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="dev.log">
 <meta property="og:description" content="Intro스프링의 AOP 프록싱 메커니즘에 대해 정리한다. 스프링 AOP에 대한 자세한 글은 링크를 참고하길 바란다.  거의 번역 위주의 글에 약간의 코드를 끼얹은 글이므로 여유롭다면 이 글보다  링크를 직접 보는 것을 추천한다.  다음과 같은 분들에게 이 글을 읽기를 권장한다.    AOP가 Aspect Oriented Programming이라는 사실을">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-17T12:51:50.338Z">
+<meta property="og:updated_time" content="2019-03-17T13:00:50.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AOP의 이해와 활용">
 <meta name="twitter:description" content="Intro스프링의 AOP 프록싱 메커니즘에 대해 정리한다. 스프링 AOP에 대한 자세한 글은 링크를 참고하길 바란다.  거의 번역 위주의 글에 약간의 코드를 끼얹은 글이므로 여유롭다면 이 글보다  링크를 직접 보는 것을 추천한다.  다음과 같은 분들에게 이 글을 읽기를 권장한다.    AOP가 Aspect Oriented Programming이라는 사실을">
@@ -279,7 +279,7 @@ ga('send', 'pageview');
 <p>어노테이션이 붙은 모든 곳. 물론 의심했던 18가지 녀석에게 붙일 것이고 추가적으로 더 생길 수도 있다.<br>어노테이션의 이름도 정해졌다. <code>LoggingPerformance</code>이다.  </p>
 <p>다음의 의존성을 사용한다.  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    implementation <span class="string">'org.springframework.boot:spring-boot-starter-aop'</span></span><br><span class="line">    implementation <span class="string">'org.springframework.boot:spring-boot-starter-web'</span></span><br><span class="line">    compileOnly <span class="string">'org.projectlombok:lombok'</span></span><br><span class="line">    annotationProcessor <span class="string">'org.projectlombok:lombok'</span></span><br><span class="line">    testImplementation <span class="string">'org.springframework.boot:spring-boot-starter-test'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>테스트는 필요 없는데 딸려왔다. <del>테스트는 제가 추가한게 아니라 인텔리제이가 했어요. 제발 ㅠㅠ</del><br>코드를 작성해보자.  </p>
+<p>테스트는 필요 없는데 딸려왔다. <del>테스트는 제가 추가한게 아니라 인텔리제이가 했어요. 제발 ㅠㅠ</del>🐾🐾<br>코드를 작성해보자.  </p>
 <p>우선 <code>무엇을 분리할 것인가</code>에 해당하는 애스펙트를 정의힌다.  </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggingAspect</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>이미 앞서 수행 시간 측정이 목표이므로 <code>Around</code>로 결정했다. 그리고 어노테이션으로 어노테이트된 모든 메소드와 클래스를 대상으로 하기로 했다.<br>어노테이션도 정의해보자.  </p>
@@ -306,7 +306,7 @@ ga('send', 'pageview');
 
 
 
-    <a data-url="https://hyeyoom.github.io/2019/03/17/AOP의-이해와-활용/" data-id="cjtcxchzf000pbd8hgpzsooog" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://hyeyoom.github.io/2019/03/17/AOP의-이해와-활용/" data-id="cjtcxhxrp000po38hh357x5p5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
