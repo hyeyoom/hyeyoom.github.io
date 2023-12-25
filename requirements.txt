@@ -1,0 +1,4 @@
+markdown
+lxml
+jinja2
+beautifulsoup4
