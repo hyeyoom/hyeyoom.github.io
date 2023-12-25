@@ -7,6 +7,7 @@ import markdown
 from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import html
+from urllib.parse import unquote
 
 custom_template = """<!DOCTYPE html>
 <html lang="en">
@@ -80,6 +81,9 @@ def post_process(html_document: str) -> str:
     soup = BeautifulSoup(html_document, 'html.parser')
     for a_tag in soup.find_all('a', href=True):
         origin = a_tag['href']
+        if (origin.startswith('%')):
+            origin = unquote(origin)
+        print(ord('가') <= ord(origin[0]) <= ord('힣'))
         if origin[0].isalpha() or origin[0] == '.' or origin[0].isdigit() or (ord('가') <= ord(origin[0]) <= ord('힣')):
             a_tag['href'] = f"{origin}.html"
     return str(soup)
