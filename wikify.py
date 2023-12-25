@@ -8,11 +8,27 @@ from bs4 import BeautifulSoup
 from jinja2 import Template
 from lxml import html
 
-custom_template = """<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>{{ title }}</title></head><body>{{ body }}</body></html>"""
+custom_template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+    </style>
+    <title>{{ title }}</title></head>
+<body>{{ body }}</body>
+</html>"""
 
 
 def markdown_to_html(markdown_text) -> str:
-    html_content = markdown.markdown(markdown_text)
+    html_content = markdown.markdown(markdown_text, extensions=['tables'])
     html_element = html.fromstring(html_content)
 
     return html.tostring(html_element, pretty_print=True, encoding='unicode')
