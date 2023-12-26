@@ -29,7 +29,7 @@ custom_template = """<!DOCTYPE html>
 
 
 def markdown_to_html(markdown_text) -> str:
-    html_content = markdown.markdown(markdown_text, extensions=['tables'])
+    html_content = markdown.markdown(markdown_text, extensions=['tables', 'markdown_checklist.extension'])
     html_element = html.fromstring(html_content)
 
     return html.tostring(html_element, pretty_print=True, encoding='unicode')
