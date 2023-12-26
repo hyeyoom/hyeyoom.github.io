@@ -81,6 +81,8 @@ def post_process(html_document: str) -> str:
     soup = BeautifulSoup(html_document, 'html.parser')
     for a_tag in soup.find_all('a', href=True):
         origin = a_tag['href']
+        if (origin.startswith('http')):
+            continue
         if (origin.startswith('%')):
             origin = unquote(origin)
         if origin[0].isalpha() or origin[0] == '.' or origin[0].isdigit() or (ord('가') <= ord(origin[0]) <= ord('힣')):
