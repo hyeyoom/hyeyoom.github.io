@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+    </style>
+<title>wiki.chiho.one</title></head>
+<body><div>
+<h1>왜 만들었는가</h1>
+<p>개인적으로 휘갈기는 노트를 정리하려고 만들었다. 초기 MVP 설정은 다음과 같이 잡았다.</p>
+<ul>
+<li>지식을 제텔카스텐 형태로 정리하고 싶다.</li>
+<li>웹에서 어디서든 보고 싶다.</li>
+<li>하지만 만드는데 큰 공은 들이고 싶지 않다.<ul>
+<li>심지어 스타일 없는 html도 괜찮음</li>
+<li>검색? 당장 필요 없음</li>
+<li>SEO? 당장 필요 없음</li>
+<li>서버 관리 하고 싶지 않음. 회사에서 충분히 하고 있음.</li>
+<li>그러므로 <a href="https://pages.github.com/.html">github pages</a>를 사용할 것임</li>
+</ul>
+</li>
+</ul>
+<p>위와 같은 방향을 잡으니 다음 세부사항들이 결정되었다.</p>
+<ul>
+<li>문서 편집은 vimwiki 사용</li>
+<li>문서 저장은 github repository 사용</li>
+<li>문서 배포는 github pages 사용</li>
+<li>도메인도 github pages 사용</li>
+</ul>
+<p>이를 방향으로 목표 설정을 했다.</p>
+<p>Goals</p>
+<ul>
+<li>vimwiki로 정리하는 지식을 markdown으로 저장한다.</li>
+<li>markdown으로 저장된 지식을 html으로 변경한다.</li>
+<li>ghpage에 배포한다.</li>
+</ul>
+<p>Non-Goals</p>
+<ul>
+<li>디자인 X</li>
+<li>SEO X</li>
+<li>검색 지원 X</li>
+<li>파서를 직접 만들지 마라</li>
+</ul>
+<p>위에서 설정한 것들을 토대로 0.0.1 버전이 나왔다. 뚝딱뚝딱 만든거라 시간 소요도 거의 없었다. 
+홍천에서 휴가 중에 만들었다. 개인 위키를 갖고 싶다는 생각은 있었는데 그렇게 강하진 않아서 남는 시간에 만들고 싶었다.
+결과적으로 만족스럽다.</p>
+<h1>릴리즈 노트</h1>
+<h2>0.0.1</h2>
+<ul>
+<li>[x] markdown to HTML 변환</li>
+<li>[X] 다른 문서로 연결하기 기능</li>
+</ul>
+<p>what is next?</p>
+<ul>
+<li>[ ] 제외된 문서 자동으로 제거하기</li>
+<li>[ ] 기본적인 스타일 적용하기</li>
+<li>[ ] sitemap.xml 생성하기</li>
+<li>[ ] client side 검색 기능 (<a href="https://lunrjs.com/.html">lunr.js</a>)</li>
+<li>[ ] Google Analytics</li>
+<li>[ ] SEO 지원하기</li>
+</ul>
+</div>
+</body>
+</html>
