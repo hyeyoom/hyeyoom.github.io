@@ -42,7 +42,7 @@ Non-Goals
 ## 0.0.1
 
 - [x] markdown to HTML 변환
-- [X] 다른 문서로 연결하기 기능
+- [x] 다른 문서로 연결하기 기능
 
 what is next?
 
