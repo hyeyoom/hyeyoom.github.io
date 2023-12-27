@@ -12,18 +12,86 @@ from lxml import html
 custom_template = """<!DOCTYPE html>
 <html lang="ko">
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+          rel="stylesheet"/>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="stylesheet" href="./assets/styles/atom-one-dark.css">
+    <script src="./assets/styles/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                console.log(block)
+                hljs.highlightElement(block);
+            });
+        });
+    </script>
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
+            background-color: #222233;
+            color: #e3e3e3;
+            margin: 0;
+            padding: 1rem 10rem;
+            font-size: 1.2rem;
         }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3rem;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+        }
+
+        h3 {
+            font-size: 2.6rem;
+        }
+
+        h4 {
+            font-size: 2.4rem;
+        }
+
+        h5 {
+            font-size: 2.2rem;
+        }
+
+        h6 {
+            font-size: 2rem;
+        }
+
+        a {
+            color: #ff8c00;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: #ffa07a;
+        }
+
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 6px solid #0077cc;
+            padding: 1rem 1.5rem;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        code {
+            font-size: 1.5rem;
+        }
+
     </style>
-    <title>{{ title }}</title></head>
+    <title>{{ title }}</title>
+</head>
 <body>{{ body }}</body>
 </html>"""
 
