@@ -33,8 +33,16 @@ custom_template = """<!DOCTYPE html>
             background-color: #222233;
             color: #e3e3e3;
             margin: 0;
-            padding: 1rem 10rem;
-            font-size: 1.2rem;
+
+            @media (min-width: 768px) {
+                padding: 0.5rem 2rem;
+                font-size: 2rem;
+            }
+
+            @media (min-width: 1024px) {
+                padding: 1rem 6rem;
+                font-size: 1.2rem;
+            }
         }
 
         img {
@@ -44,28 +52,70 @@ custom_template = """<!DOCTYPE html>
             margin: 0 auto;
         }
 
+        h1:after, h2:after, h3:after, h4:after, h5:after, h6:after {
+            content: ' ';
+            display: block;
+            border: 2px solid #e3e3e3;
+        }
+
         h1 {
-            font-size: 3rem;
+            @media (min-width: 768px) {
+                font-size: 6rem;
+            }
+
+            @media (min-width: 1024px) {
+                font-size: 3rem;
+            }
         }
 
         h2 {
-            font-size: 2.8rem;
+            @media (min-width: 768px) {
+                font-size: 5.8rem;
+            }
+
+            @media (min-width: 1024px) {
+                font-size: 2.8rem;
+            }
         }
 
         h3 {
-            font-size: 2.6rem;
+            @media (min-width: 768px) {
+                font-size: 5.6rem;
+            }
+
+            @media (min-width: 1024px) {
+                font-size: 2.6rem;
+            }
         }
 
         h4 {
-            font-size: 2.4rem;
+            @media (min-width: 768px) {
+                font-size: 5.4rem;
+            }
+
+            @media (min-width: 1024px) {
+                font-size: 2.4rem;
+            }
         }
 
         h5 {
-            font-size: 2.2rem;
+            @media (min-width: 768px) {
+                font-size: 5.2rem;
+            }
+
+            @media (min-width: 1024px) {
+                font-size: 2.2rem;
+            }
         }
 
         h6 {
-            font-size: 2rem;
+            @media (min-width: 768px) {
+                font-size: 5rem;
+            }
+
+            @media (min-width: 1024px) {
+                font-size: 2rem;
+            }
         }
 
         a {
@@ -86,9 +136,15 @@ custom_template = """<!DOCTYPE html>
         }
 
         code {
-            font-size: 1.5rem;
-        }
+            @media (min-width: 768px) {
+                font-size: 3rem;
+            }
 
+            @media (min-width: 1024px) {
+                font-size: 1.5rem;
+
+            }
+        }
     </style>
     <title>{{ title }}</title>
 </head>
