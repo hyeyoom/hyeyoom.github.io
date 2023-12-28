@@ -3,25 +3,25 @@
         <url>
                 <loc>https://wiki.chiho.one/index.html</loc>
                 <changefreq>weekly</changefreq>
-                <lastmod>2023-12-28T13:52:54.078090+09:00</lastmod>
+                <lastmod>2023-12-28T17:09:06.853317+09:00</lastmod>
                 <priority>0.8</priority>
             </url>
 <url>
                 <loc>https://wiki.chiho.one/styletest.html</loc>
                 <changefreq>weekly</changefreq>
-                <lastmod>2023-12-28T13:52:54.081016+09:00</lastmod>
+                <lastmod>2023-12-28T17:09:06.854082+09:00</lastmod>
                 <priority>0.8</priority>
             </url>
 <url>
                 <loc>https://wiki.chiho.one/wiki.chiho.one.html</loc>
                 <changefreq>weekly</changefreq>
-                <lastmod>2023-12-28T13:52:54.079034+09:00</lastmod>
+                <lastmod>2023-12-28T17:09:06.854828+09:00</lastmod>
                 <priority>0.8</priority>
             </url>
 <url>
                 <loc>https://wiki.chiho.one/%ED%94%8C%EB%9D%BC%EC%9E%90%20%ED%95%A9%EC%9D%98.html</loc>
                 <changefreq>weekly</changefreq>
-                <lastmod>2023-12-28T13:52:54.076110+09:00</lastmod>
+                <lastmod>2023-12-28T17:09:06.853494+09:00</lastmod>
                 <priority>0.8</priority>
             </url>
 <url>
@@ -33,7 +33,13 @@
 <url>
                 <loc>https://wiki.chiho.one/%EC%A0%9C%ED%85%94%EC%B9%B4%EC%8A%A4%ED%85%90.html</loc>
                 <changefreq>weekly</changefreq>
-                <lastmod>2023-12-28T13:52:54.080686+09:00</lastmod>
+                <lastmod>2023-12-28T17:09:06.856483+09:00</lastmod>
+                <priority>0.8</priority>
+            </url>
+<url>
+                <loc>https://wiki.chiho.one/%EB%82%A8%EC%A4%91%20%EA%B3%A0%EB%8F%84.html</loc>
+                <changefreq>weekly</changefreq>
+                <lastmod>2023-12-28T17:09:06.852315+09:00</lastmod>
                 <priority>0.8</priority>
             </url>
         </urlset>
