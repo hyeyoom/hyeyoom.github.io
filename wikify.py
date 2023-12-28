@@ -1,6 +1,7 @@
 import concurrent.futures
 import os
 import time
+import shutil
 from typing import Callable
 from urllib.parse import unquote
 
@@ -175,12 +176,16 @@ def scan_dir(directory_path) -> list:
     filenames = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
     return list(filter(lambda x: x.endswith('.md'), filenames))
 
+def copy_assets():
+    shutil.copytree('./wiki/assets', './docs/assets', dirs_exist_ok=True)
+
 
 def traverse_in_parallel(directory_path: str, handler: Callable[[str], None]):
     filenames = scan_dir(directory_path)
     targets = list(map(lambda x: os.path.join(directory_path, x), filenames))
     with concurrent.futures.ProcessPoolExecutor() as executor:
         executor.map(handler, targets)
+    copy_assets()
 
 
 def change_file_extension(file_path, new_extension):
