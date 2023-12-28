@@ -3,7 +3,8 @@ import os
 import time
 import shutil
 from typing import Callable
-from urllib.parse import unquote
+from urllib.parse import unquote, quote
+from datetime import datetime, timedelta
 
 import markdown
 from bs4 import BeautifulSoup
@@ -184,21 +185,55 @@ def save_file(filepath: str, content: str) -> None:
         file.flush()
 
 
-def scan_dir(directory_path) -> list:
-    filenames = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
-    return list(filter(lambda x: x.endswith('.md'), filenames))
-
-
 def copy_assets():
     shutil.copytree('./wiki/assets', './docs/assets', dirs_exist_ok=True)
 
 
+def get_file_list_by_ext(directory_path: str, ext: str) -> list:
+    filenames = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+    return list(filter(lambda x: x.endswith(ext), filenames))
+
+
+def convert_timestamp_to_datetime(timestamp):
+    dt = datetime.utcfromtimestamp(timestamp)
+    localized_dt = dt + timedelta(hours=9)
+    return localized_dt
+
+
+def build_sitemap(file_list: list):
+    sitemap_template = """<?xml version="1.0" encoding="UTF-8"?>
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        {0}
+        </urlset>
+        """
+
+    url_template = """<url>
+                <loc>{0}</loc>
+                <changefreq>weekly</changefreq>
+                <lastmod>{1}</lastmod>
+                <priority>0.8</priority>
+            </url>"""
+    base_url = 'https://wiki.chiho.one/'
+    url_elements = []
+    for file in file_list:
+        path = os.path.join('./docs', file)
+        last_modified_datetime = convert_timestamp_to_datetime(os.path.getmtime(path))
+        lastmod = str(last_modified_datetime).replace(' ', 'T') + '+09:00'
+        full_url = base_url + quote(file)
+        url = url_template.format(full_url, lastmod)
+        url_elements.append(url)
+    sitemap = sitemap_template.format('\n'.join(url_elements))
+    save_file('./docs/sitemap.xml', sitemap)
+
 def traverse_in_parallel(directory_path: str, handler: Callable[[str], None]):
-    filenames = scan_dir(directory_path)
+    filenames = get_file_list_by_ext(directory_path, '.md')
     targets = list(map(lambda x: os.path.join(directory_path, x), filenames))
     with concurrent.futures.ProcessPoolExecutor() as executor:
         executor.map(handler, targets)
+    # post process
     copy_assets()
+    document_list = get_file_list_by_ext('./docs', '.html')
+    build_sitemap(document_list)
 
 
 def change_file_extension(file_path, new_extension):
