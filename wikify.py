@@ -40,7 +40,7 @@ custom_template = """<!DOCTYPE html>
             }
 
             @media (min-width: 1024px) {
-                padding: 1rem 6rem;
+                padding: 1rem 35rem;
                 font-size: 1.2rem;
             }
         }
@@ -49,7 +49,7 @@ custom_template = """<!DOCTYPE html>
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto;
+            margin: 0;
         }
 
         h1:after, h2:after, h3:after, h4:after, h5:after, h6:after {
