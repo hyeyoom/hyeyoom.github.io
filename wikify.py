@@ -19,6 +19,7 @@ custom_template = """<!DOCTYPE html>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
           rel="stylesheet"/>
     <meta charset="utf-8"/>
+    <meta name="google-site-verification" content="vG9QrLloxHXJ0PGrXLw69x-FSbeiTQyiTvjphgomYO0" />
     <link rel="stylesheet" href="./assets/styles/atom-one-dark.css">
     <script src="./assets/styles/highlight.min.js"></script>
     <script>
