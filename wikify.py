@@ -27,6 +27,10 @@ custom_template = """<!DOCTYPE html>
                 hljs.highlightElement(block);
             });
         });
+        
+        function goBack() {
+            window.history.back();
+        }
     </script>
     <style>
         body {
@@ -46,6 +50,12 @@ custom_template = """<!DOCTYPE html>
             }
         }
 
+        #backButton {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #e3e3e3;
+        }
+        
         img {
             max-width: 100%;
             height: auto;
@@ -149,7 +159,9 @@ custom_template = """<!DOCTYPE html>
     </style>
     <title>{{ title }}</title>
 </head>
-<body>{{ body }}</body>
+<body>
+<a href="#" id="backButton" onclick="goBack()">🔙 이전 문서로</a>
+{{ body }}</body>
 </html>"""
 
 
@@ -175,6 +187,7 @@ def save_file(filepath: str, content: str) -> None:
 def scan_dir(directory_path) -> list:
     filenames = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
     return list(filter(lambda x: x.endswith('.md'), filenames))
+
 
 def copy_assets():
     shutil.copytree('./wiki/assets', './docs/assets', dirs_exist_ok=True)

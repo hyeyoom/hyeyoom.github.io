@@ -15,6 +15,10 @@
                 hljs.highlightElement(block);
             });
         });
+        
+        function goBack() {
+            window.history.back();
+        }
     </script>
 <style>
         body {
@@ -34,6 +38,12 @@
             }
         }
 
+        #backButton {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #e3e3e3;
+        }
+        
         img {
             max-width: 100%;
             height: auto;
@@ -137,7 +147,9 @@
     </style>
 <title>index</title>
 </head>
-<body><div>
+<body>
+<a href="#" id="backButton" onclick="goBack()">🔙 이전 문서로</a>
+<div>
 <h1>문서</h1>
 <p>위키 문서 목록입니다.</p>
 <h2>가-힣</h2>

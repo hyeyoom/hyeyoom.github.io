@@ -15,6 +15,10 @@
                 hljs.highlightElement(block);
             });
         });
+        
+        function goBack() {
+            window.history.back();
+        }
     </script>
 <style>
         body {
@@ -34,6 +38,12 @@
             }
         }
 
+        #backButton {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #e3e3e3;
+        }
+        
         img {
             max-width: 100%;
             height: auto;
@@ -137,7 +147,9 @@
     </style>
 <title>플라자 합의</title>
 </head>
-<body><div>
+<body>
+<a href="#" id="backButton" onclick="goBack()">🔙 이전 문서로</a>
+<div>
 <h1>개요</h1>
 <p>1985년 9월 22일 미국, 일본, 영국, 프랑스, 서독의 재무장관들이 뉴욕 맨해튼의 플라자 호텔에서 진행한 환율 조정 합의.
 미국이 인위적으로 달러의 가치를 떨어뜨리기 위해 다른 나라 화폐의 가치를 올리도록 했다.</p>
