@@ -234,7 +234,6 @@ if __name__ == '__main__':
     for target in targets:
         doc = WikiDocument(target, template, wm)
         docs.append(doc)
-        print(doc.should_update)
         if doc.should_update:
             render_html_in_file()
             repainted = True
