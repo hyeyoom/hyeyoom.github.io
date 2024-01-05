@@ -211,7 +211,7 @@ class SitemapGenerator:
         for doc in docs:
             lastmod = str(doc.modified_datetime).replace(' ', 'T') + '+09:00'
             full_url = self.__base_url + quote(f"{doc.document_name}.html")
-            url = self.__url_template.format(full_url, lastmod)
+            url = self.__url_template.format(full_url.replace(" ", ""), lastmod)
             url_elements.append(url)
         sitemap = self.__sitemap_template.format('\n'.join(url_elements))
         self.__save_file('./docs/sitemap.xml', sitemap)
