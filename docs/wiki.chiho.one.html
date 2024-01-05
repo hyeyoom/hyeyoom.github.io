@@ -1,37 +1,41 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-S03TL1VDPZ"></script>
-<script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-S03TL1VDPZ');
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S03TL1VDPZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-S03TL1VDPZ');
     </script>
-<link href="favicon.ico" rel="icon" type="image/x-icon"/>
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<meta charset="utf-8"/>
-<meta content="vG9QrLloxHXJ0PGrXLw69x-FSbeiTQyiTvjphgomYO0" name="google-site-verification"/>
-<link href="./assets/styles/atom-one-dark.css" rel="stylesheet"/>
-<script src="./assets/styles/highlight.min.js"></script>
-<script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+          rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <meta name="google-site-verification" content="vG9QrLloxHXJ0PGrXLw69x-FSbeiTQyiTvjphgomYO0"/>
+    <link rel="stylesheet" href="./assets/styles/atom-one-dark.css">
+    <script src="./assets/styles/highlight.min.js"></script>
+    <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('pre code').forEach((block) => {
                 console.log(block)
                 hljs.highlightElement(block);
             });
         });
-        
+
         function goBack() {
             window.history.back();
         }
     </script>
-<style>
+    <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #222233;
@@ -54,7 +58,7 @@
             font-size: 1.5rem;
             color: #e3e3e3;
         }
-        
+
         img {
             max-width: 100%;
             height: auto;
@@ -156,8 +160,8 @@
             }
         }
     </style>
-<title>wiki.chiho.one</title>
-</link></head>
+    <title>wiki.chiho.one</title>
+</head>
 <body>
 <a href="#" id="backButton" onclick="goBack()">🔙 이전 문서로</a>
 <div>
@@ -200,6 +204,27 @@
 홍천에서 휴가 중에 만들었다. 개인 위키를 갖고 싶다는 생각은 있었는데 그렇게 강하진 않아서 남는 시간에 만들고 싶었다.
 결과적으로 만족스럽다. 디자인은 개판이지만.</p>
 <h1>릴리즈 노트</h1>
+<h2>0.0.2</h2>
+<p>심하게 많이 건너 뛴거 같지만..</p>
+<ul class="checklist">
+<li>
+<input checked="" disabled="" type="checkbox"/> 갱신된 문서만 다시 렌더링하기</li>
+<li>
+<input checked="" disabled="" type="checkbox"/> 기본적인 스타일 적용하기</li>
+<li>
+<input checked="" disabled="" type="checkbox"/> sitemap.xml 생성하기</li>
+<li>
+<input checked="" disabled="" type="checkbox"/> Google Analytics</li>
+</ul>
+<p>what is next?</p>
+<ul class="checklist">
+<li>
+<input disabled="" type="checkbox"/> 제외된 문서 자동으로 제거하기</li>
+<li>
+<input disabled="" type="checkbox"/> client side 검색 기능 (<a href="https://lunrjs.com/">lunr.js</a>)</li>
+<li>
+<input disabled="" type="checkbox"/> SEO 지원하기</li>
+</ul>
 <h2>0.0.1</h2>
 <ul class="checklist">
 <li>
@@ -225,5 +250,6 @@
 <input disabled="" type="checkbox"/> SEO 지원하기</li>
 </ul>
 </div>
+
 </body>
 </html>

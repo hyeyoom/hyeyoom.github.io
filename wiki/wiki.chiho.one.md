@@ -39,6 +39,21 @@ Non-Goals
 
 # 릴리즈 노트
 
+## 0.0.2
+
+심하게 많이 건너 뛴거 같지만..
+
+- [x] 갱신된 문서만 다시 렌더링하기
+- [x] 기본적인 스타일 적용하기
+- [x] sitemap.xml 생성하기
+- [x] Google Analytics
+
+what is next?
+
+- [ ] 제외된 문서 자동으로 제거하기
+- [ ] client side 검색 기능 ([lunr.js](https://lunrjs.com/))
+- [ ] SEO 지원하기
+
 ## 0.0.1
 
 - [x] markdown to HTML 변환
