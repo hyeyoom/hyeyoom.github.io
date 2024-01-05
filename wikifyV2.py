@@ -1,9 +1,9 @@
-import time
 import hashlib
 import json
 import os.path
+import time
 from datetime import datetime, timedelta
-from urllib.parse import unquote
+from urllib.parse import unquote, quote
 
 import markdown
 from bs4 import BeautifulSoup
@@ -77,24 +77,39 @@ class WikiDocument:
         self.template = template
         self.wiki_manager = wiki_manager
 
-        current_hash = self._calculate_file_hash(file_path)
-        previous_hash = self.wiki_manager.get_document_hash(self.document_name)
-        should_update = current_hash != previous_hash
+        current_hash, previous_hash, should_update = self.should_update_determine(file_path)
         self.should_update = should_update
 
         if should_update:
             self.document_hash = current_hash
             self.wiki_manager.set_document_hash(self.document_name, self.document_hash)
             modified_timestamp = os.path.getmtime(file_path)
-            self.modified_datetime = self.convert_timestamp_to_datetime(modified_timestamp)
+            self.modified_datetime = self._convert_timestamp_to_datetime(modified_timestamp)
             self.wiki_manager.set_document_modified_time(self.document_name, modified_timestamp)
         else:
             self.document_hash = previous_hash
 
+        modified_timestamp = self.wiki_manager.get_document_modified_time(self.document_name)
+        self.modified_datetime = self._convert_timestamp_to_datetime(modified_timestamp)
+
         if self.wiki_manager.get_document_created_time(self.document_name) is None:
             created_timestamp = os.path.getctime(file_path)
-            self.created_datetime = self.convert_timestamp_to_datetime(created_timestamp)
+            self.created_datetime = self._convert_timestamp_to_datetime(created_timestamp)
             self.wiki_manager.set_document_created_time(self.document_name, created_timestamp)
+        else:
+            created_timestamp = self.wiki_manager.get_document_created_time(self.document_name)
+            self.created_datetime = self._convert_timestamp_to_datetime(created_timestamp)
+
+    def should_update_determine(self, file_path):
+        current_hash = self._calculate_file_hash(file_path)
+        previous_hash = self.wiki_manager.get_document_hash(self.document_name)
+        should_update = current_hash != previous_hash
+        return current_hash, previous_hash, should_update
+
+    def get_last_modified_datetime(self) -> datetime:
+        if self.modified_datetime is None:
+            return self.created_datetime
+        return self.modified_datetime
 
     def _calculate_file_hash(self, file_path: str, block_size=65536):
         with open(file_path, 'rb') as file:
@@ -115,7 +130,7 @@ class WikiDocument:
     def _extract_filename(self, file_path):
         return os.path.basename(file_path)
 
-    def convert_timestamp_to_datetime(self, timestamp: float) -> datetime:
+    def _convert_timestamp_to_datetime(self, timestamp: float) -> datetime:
         dt = datetime.utcfromtimestamp(timestamp)
         localized_dt = dt + self.__TIME_DELTA_FOR_KST
         return localized_dt
@@ -166,6 +181,42 @@ def render_html_in_file():
         file.flush()
 
 
+class SitemapGenerator:
+    __base_url = 'https://wiki.chiho.one/'
+
+    __sitemap_template = """<?xml version="1.0" encoding="UTF-8"?>
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            {0}
+            </urlset>
+            """
+
+    __url_template = """<url>
+                    <loc>{0}</loc>
+                    <changefreq>weekly</changefreq>
+                    <lastmod>{1}</lastmod>
+                    <priority>0.8</priority>
+                </url>"""
+
+    def __init__(self, docs: list[WikiDocument]):
+        self.docs = docs
+
+    @staticmethod
+    def __save_file(filepath: str, content: str) -> None:
+        with open(filepath, 'w') as file:
+            file.write(content)
+            file.flush()
+
+    def generate(self):
+        url_elements = []
+        for doc in docs:
+            lastmod = str(doc.modified_datetime).replace(' ', 'T') + '+09:00'
+            full_url = self.__base_url + quote(f"{doc.document_name}.html")
+            url = self.__url_template.format(full_url, lastmod)
+            url_elements.append(url)
+        sitemap = self.__sitemap_template.format('\n'.join(url_elements))
+        self.__save_file('./docs/sitemap.xml', sitemap)
+
+
 if __name__ == '__main__':
     start_time = time.perf_counter()
 
@@ -178,12 +229,20 @@ if __name__ == '__main__':
     filenames = get_file_list_by_ext('./wiki', '.md')
     targets = list(map(lambda x: os.path.join('./wiki', x), filenames))
 
+    docs = []
+    repainted = False
     for target in targets:
         doc = WikiDocument(target, template, wm)
+        docs.append(doc)
+        print(doc.should_update)
         if doc.should_update:
             render_html_in_file()
+            repainted = True
 
     wm.flush()
+
+    if repainted:
+        SitemapGenerator(docs).generate()
 
     end_time = time.perf_counter()
     elapsed_time = end_time - start_time
