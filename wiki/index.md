@@ -11,6 +11,7 @@
 
 ## a-z
 
+- [Apartheid](Apartheid)
 - [styletest](styletest)
 - [wiki chiho one](wiki.chiho.one)
 
