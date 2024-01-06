@@ -229,19 +229,24 @@ if __name__ == '__main__':
     filenames = get_file_list_by_ext('./wiki', '.md')
     targets = list(map(lambda x: os.path.join('./wiki', x), filenames))
 
+    count_of_changed = 0
     docs = []
     repainted = False
     for target in targets:
         doc = WikiDocument(target, template, wm)
         docs.append(doc)
         if doc.should_update:
+            count_of_changed += 1
             render_html_in_file()
             repainted = True
 
     wm.flush()
 
     if repainted:
+        print(f"Repainted. docs: {len(docs)} files. changed: {count_of_changed} files.")
         SitemapGenerator(docs).generate()
+    else:
+        print(f"Nothing to update. docs: {len(docs)} files. changed: {count_of_changed} files.")
 
     end_time = time.perf_counter()
     elapsed_time = end_time - start_time
