@@ -152,6 +152,7 @@ class WikiDocument:
         for a_tag in soup.find_all('a', href=True):
             origin = a_tag['href']
             if (origin.startswith('http')):
+                a_tag['target'] = '_blank'
                 continue
             if (origin.startswith('%')):
                 origin = unquote(origin)
