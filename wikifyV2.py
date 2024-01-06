@@ -2,6 +2,7 @@ import hashlib
 import json
 import os.path
 import time
+import shutil
 from datetime import datetime, timedelta
 from urllib.parse import unquote, quote
 
@@ -217,6 +218,9 @@ class SitemapGenerator:
         self.__save_file('./docs/sitemap.xml', sitemap)
 
 
+def copy_assets():
+    shutil.copytree('./wiki/assets', './docs/assets', dirs_exist_ok=True)
+
 if __name__ == '__main__':
     start_time = time.perf_counter()
 
@@ -244,6 +248,7 @@ if __name__ == '__main__':
 
     if repainted:
         print(f"Repainted. docs: {len(docs)} files. changed: {count_of_changed} files.")
+        copy_assets()
         SitemapGenerator(docs).generate()
     else:
         print(f"Nothing to update. docs: {len(docs)} files. changed: {count_of_changed} files.")
