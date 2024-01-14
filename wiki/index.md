@@ -12,8 +12,10 @@
 ## a-z
 
 - [Apartheid](Apartheid)
+- [Bélády's anomaly](Bélády's anomaly)
 - [Elon Musk](일론 머스크)
 - [Lockstep](Lockstep)
+- [scp](scp)
 - [styletest](styletest)
 - [wiki chiho one](wiki.chiho.one)
 
