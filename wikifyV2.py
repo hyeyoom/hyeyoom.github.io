@@ -184,7 +184,7 @@ def render_html_in_file():
 
 
 class SitemapGenerator:
-    __base_url = 'https://wiki.chiho.one/'
+    __base_url = 'https://chiho.wiki/'
 
     __sitemap_template = """<?xml version="1.0" encoding="UTF-8"?>
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

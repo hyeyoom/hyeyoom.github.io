@@ -12,6 +12,8 @@
 ## a-z
 
 - [Apartheid](Apartheid)
+- [Elon Musk](일론 머스크)
+- [Lockstep](Lockstep)
 - [styletest](styletest)
 - [wiki chiho one](wiki.chiho.one)
 
