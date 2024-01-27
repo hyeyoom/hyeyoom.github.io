@@ -1,8 +1,8 @@
 import hashlib
 import json
 import os.path
-import time
 import shutil
+import time
 from datetime import datetime, timedelta
 from urllib.parse import unquote, quote
 
@@ -194,7 +194,7 @@ class SitemapGenerator:
 
     __url_template = """<url>
                     <loc>{0}</loc>
-                    <changefreq>weekly</changefreq>
+                    <changefreq>daily</changefreq>
                     <lastmod>{1}</lastmod>
                     <priority>0.8</priority>
                 </url>"""
@@ -211,6 +211,8 @@ class SitemapGenerator:
     def generate(self):
         url_elements = []
         for doc in docs:
+            if doc.document_name == 'index':
+                continue
             lastmod = str(doc.modified_datetime).replace(' ', 'T') + '+09:00'
             full_url = self.__base_url + quote(f"{doc.document_name}.html")
             url = self.__url_template.format(full_url.replace(" ", ""), lastmod)
@@ -221,6 +223,7 @@ class SitemapGenerator:
 
 def copy_assets():
     shutil.copytree('./wiki/assets', './docs/assets', dirs_exist_ok=True)
+
 
 if __name__ == '__main__':
     start_time = time.perf_counter()
