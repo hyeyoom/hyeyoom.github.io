@@ -19,6 +19,12 @@
                     <priority>0.8</priority>
                 </url>
 <url>
+                    <loc>https://chiho.wiki/Omert%C3%A0.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-01-28T23:23:22.468642+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
                     <loc>https://chiho.wiki/SEU.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-28T15:05:29.250365+09:00</lastmod>
@@ -40,6 +46,12 @@
                     <loc>https://chiho.wiki/%ED%94%8C%EB%9D%BC%EC%9E%90%20%ED%95%A9%EC%9D%98.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-06T01:57:56.024619+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
+                    <loc>https://chiho.wiki/%ED%95%98%EB%82%98%ED%9A%8C.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-01-28T23:23:42.955482+09:00</lastmod>
                     <priority>0.8</priority>
                 </url>
 <url>
