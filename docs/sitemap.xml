@@ -13,6 +13,12 @@
                     <priority>0.8</priority>
                 </url>
 <url>
+                    <loc>https://chiho.wiki/SEU.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-01-28T03:05:19.235298+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
                     <loc>https://chiho.wiki/scp.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-14T23:34:08.168768+09:00</lastmod>

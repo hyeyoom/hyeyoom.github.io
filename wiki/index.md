@@ -16,6 +16,7 @@
 - [Elon Musk](일론 머스크)
 - [Lockstep](Lockstep)
 - [scp](scp)
+- [SEU](SEU)
 - [styletest](styletest)
 - [wiki chiho one](wiki.chiho.one)
 
