@@ -159,49 +159,100 @@
 
             }
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        th {
+            background-color: #e3e3e3;
+            color: #222233;
+        }
+
+        tbody tr:hover {
+            background-color: #e3e3e3;
+            color: #222233
+        }
     </style>
-    <title>index</title>
+    <title>Metacharacter</title>
 </head>
 <body>
 <a href="#" id="backButton" onclick="goBack()">🔙 이전 문서로</a>
 <div>
-<h1>문서</h1>
-<p>위키 문서 목록입니다.</p>
-<h2>가-힣</h2>
-<ul>
-<li><a href="남중 고도.html">남중 고도</a></li>
-<li><a href="쇼가쓰.html">쇼가쓰</a></li>
-<li><a href="제텔카스텐.html">제텔카스텐</a></li>
-<li><a href="플라자 합의.html">플라자 합의</a></li>
-</ul>
-<h2>a-z</h2>
-<ul>
-<li><a href="Apartheid.html">Apartheid</a></li>
-<li><a href="B%C3%A9l%C3%A1dy's%20anomaly.html">Bélády's anomaly</a></li>
-<li><a href="Distributed%20System.html">Distributed System</a></li>
-<li><a href="일론 머스크.html">Elon Musk</a></li>
-<li><a href="Lockstep.html">Lockstep</a></li>
-<li><a href="Metacharacter.html">Metacharacter</a></li>
-<li><a href="scp.html">scp</a></li>
-<li><a href="SEU.html">SEU</a></li>
-<li><a href="styletest.html">styletest</a></li>
-<li><a href="wiki.chiho.one.html">wiki chiho one</a></li>
-</ul>
-<h1>메모</h1>
-<p>휘갈겨둔 생각들을 여기에 나열합니다.</p>
-<ul>
-<li><a href="인간을 바꾸는 세 가지 방법.html">인간을 바꾸는 세 가지 방법</a></li>
-<li><a href="비행기 이착륙 전에 창문을 여는 이유.html">비행기 이착륙 전에 창문을 여는 이유</a></li>
-</ul>
-<h1>읽은 책 목록</h1>
-<p>읽은 책 목록 정리</p>
-<h2>2024년</h2>
-<h3>1월</h3>
-<ul>
-<li>
-<a href="일론 머스크.html">일론 머스크, Walter Isaacson</a> - <a href="https://ridibooks.com/books/222003122" target="_blank">리디</a>, <a href="https://www.amazon.com/Elon-Musk-Walter-Isaacson/dp/1982181281" target="_blank">아마존</a>
-</li>
-</ul>
+    <h1>메타문자</h1>
+    <pre><code class="language-bash">. .. ~ | $ &amp; &amp;&amp; ; * /
+</code></pre>
+    <p>위 문자가 무엇을 의미하는지 알면 딱히 이 문서를 볼 필요는 없음</p>
+    <p>각 기호의 의미는 다음과 같다. </p>
+    <table>
+        <thead>
+        <tr>
+            <th>기호</th>
+            <th>읽는 방법</th>
+            <th>의미</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>.</td>
+            <td>dot</td>
+            <td>현재 디렉토리</td>
+        </tr>
+        <tr>
+            <td>..</td>
+            <td>double dot 혹은 dot-dot</td>
+            <td>이전 디렉토리</td>
+        </tr>
+        <tr>
+            <td>~</td>
+            <td>tilde (틸드)</td>
+            <td>홈 디렉토리</td>
+        </tr>
+        <tr>
+            <td>|</td>
+            <td>pipe (파이프)</td>
+            <td>좌변에 평가된 값을 우변으로 넘김</td>
+        </tr>
+        <tr>
+            <td>$</td>
+            <td>dollar sign (달러)</td>
+            <td>환경변수나 괄호 내 커맨드 평가</td>
+        </tr>
+        <tr>
+            <td>&amp;</td>
+            <td>ampersand (앰퍼샌드)</td>
+            <td>백그라운드로 실행</td>
+        </tr>
+        <tr>
+            <td>&amp;&amp;</td>
+            <td>double-ampersand</td>
+            <td>순차 실행</td>
+        </tr>
+        <tr>
+            <td>;</td>
+            <td>semicolon</td>
+            <td>statement separator</td>
+        </tr>
+        <tr>
+            <td>*</td>
+            <td>asterisk</td>
+            <td>wildcard</td>
+        </tr>
+        <tr>
+            <td>/</td>
+            <td>slash</td>
+            <td>디렉터리 구분자, 루트 디렉터리, 경로 구분자</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

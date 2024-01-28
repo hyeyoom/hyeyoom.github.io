@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
+                    <loc>https://chiho.wiki/Distributed%20System.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-01-28T16:58:06.195693+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
                     <loc>https://chiho.wiki/%EB%82%A8%EC%A4%91%20%EA%B3%A0%EB%8F%84.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-06T02:35:59.654297+09:00</lastmod>
@@ -40,6 +46,12 @@
                     <loc>https://chiho.wiki/Apartheid.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-06T17:31:22.469750+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
+                    <loc>https://chiho.wiki/Metacharacter.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-01-28T17:34:12.004384+09:00</lastmod>
                     <priority>0.8</priority>
                 </url>
 <url>

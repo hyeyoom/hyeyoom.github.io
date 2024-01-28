@@ -13,8 +13,10 @@
 
 - [Apartheid](Apartheid)
 - [Bélády's anomaly](Bélády's anomaly)
+- [Distributed System](Distributed System)
 - [Elon Musk](일론 머스크)
 - [Lockstep](Lockstep)
+- [Metacharacter](Metacharacter)
 - [scp](scp)
 - [SEU](SEU)
 - [styletest](styletest)
