@@ -14,7 +14,9 @@
 - [Apartheid](Apartheid)
 - [Bélády's anomaly](Bélády's anomaly)
 - [Distributed System](Distributed System)
+- EME
 - [Elon Musk](일론 머스크)
+- False Sharing
 - [Lockstep](Lockstep)
 - [Metacharacter](Metacharacter)
 - [Omertà](Omertà)
