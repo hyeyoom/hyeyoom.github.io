@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
             <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             <url>
+                    <loc>https://chiho.wiki/False%20Sharing.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-02-11T17:20:03.032675+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
                     <loc>https://chiho.wiki/Distributed%20System.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-28T21:05:19.956872+09:00</lastmod>
@@ -106,6 +112,12 @@
                     <loc>https://chiho.wiki/%EC%87%BC%EA%B0%80%EC%93%B0.html</loc>
                     <changefreq>daily</changefreq>
                     <lastmod>2024-01-06T03:07:47.595739+09:00</lastmod>
+                    <priority>0.8</priority>
+                </url>
+<url>
+                    <loc>https://chiho.wiki/EME.html</loc>
+                    <changefreq>daily</changefreq>
+                    <lastmod>2024-02-02T19:47:28.264659+09:00</lastmod>
                     <priority>0.8</priority>
                 </url>
             </urlset>
