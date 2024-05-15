@@ -1,4 +1,3 @@
 User-agent: *
 Sitemap: https://chiho.wiki/sitemap.xml
 Disallow: /assets/
-Disallow: /index.html
