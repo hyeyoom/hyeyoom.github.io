@@ -211,8 +211,6 @@ class SitemapGenerator:
     def generate(self):
         url_elements = []
         for doc in docs:
-            if doc.document_name == 'index':
-                continue
             lastmod = str(doc.modified_datetime).replace(' ', 'T') + '+09:00'
             full_url = self.__base_url + quote(f"{doc.document_name}.html")
             url = self.__url_template.format(full_url.replace(" ", ""), lastmod)
