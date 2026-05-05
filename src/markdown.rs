@@ -77,6 +77,16 @@ fn enhance_footnotes(html: &str) -> String {
 
         let definition = format!(r#"<div class="footnote-definition" id="{}">"#, footnote_id);
         if out.contains(&definition) {
+            let old_label = format!(
+                r#"<div class="footnote-definition" id="{}"><sup class="footnote-definition-label">{}</sup>"#,
+                footnote_id, idx
+            );
+            let new_label = format!(
+                r##"<div class="footnote-definition" id="{}"><sup class="footnote-definition-label"><a href="#fnref-{}" aria-label="본문 각주 {}로 돌아가기">{}</a></sup>"##,
+                footnote_id, footnote_id, idx, idx
+            );
+            out = out.replacen(&old_label, &new_label, 1);
+
             let backlink = format!(
                 r##" <a class="footnote-backref" href="#fnref-{}" aria-label="본문 각주 {}로 돌아가기">본문으로 돌아가기 ↑</a>"##,
                 footnote_id, idx
@@ -131,6 +141,7 @@ mod tests {
         assert!(html.contains(r##"id="fnref-note""##));
         assert!(html.contains(r##"href="#note""##));
         assert!(html.contains(r##"href="#fnref-note""##));
+        assert!(html.contains(r##"footnote-definition-label"><a href="#fnref-note""##));
         assert!(html.contains("[1]"));
         assert!(html.contains("본문으로 돌아가기"));
     }
