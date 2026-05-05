@@ -48,6 +48,47 @@ pub fn render(md: &str) -> String {
 
     let mut out = String::new();
     html::push_html(&mut out, events.into_iter());
+    enhance_footnotes(&out)
+}
+
+fn enhance_footnotes(html: &str) -> String {
+    let mut out = html.to_string();
+
+    for idx in 1..=99 {
+        let needle = "<sup class=\"footnote-reference\"><a href=\"#";
+        let Some(start) = out.find(&needle) else {
+            break;
+        };
+        let href_start = start + needle.len();
+        let Some(href_end_rel) = out[href_start..].find("\">") else {
+            break;
+        };
+        let href_end = href_start + href_end_rel;
+        let footnote_id = out[href_start..href_end].to_string();
+        let old_ref = format!(
+            r##"<sup class="footnote-reference"><a href="#{}">{}</a></sup>"##,
+            footnote_id, idx
+        );
+        let new_ref = format!(
+            r##"<sup class="footnote-reference" id="fnref-{}"><a href="#{}" aria-label="각주 {} 보기">[{}]</a></sup>"##,
+            footnote_id, footnote_id, idx, idx
+        );
+        out = out.replacen(&old_ref, &new_ref, 1);
+
+        let definition = format!(r#"<div class="footnote-definition" id="{}">"#, footnote_id);
+        if out.contains(&definition) {
+            let backlink = format!(
+                r##" <a class="footnote-backref" href="#fnref-{}" aria-label="본문 각주 {}로 돌아가기">본문으로 돌아가기 ↑</a>"##,
+                footnote_id, idx
+            );
+            let search_from = out.find(&definition).unwrap_or(0);
+            if let Some(close_rel) = out[search_from..].find("</p>") {
+                let close = search_from + close_rel;
+                out.insert_str(close, &backlink);
+            }
+        }
+    }
+
     out
 }
 
@@ -82,6 +123,16 @@ mod tests {
     fn renders_footnote_definition() {
         let html = render("Note[^1].\n\n[^1]: Footnote text");
         assert!(html.contains("footnote-definition"));
+    }
+
+    #[test]
+    fn footnotes_link_both_ways() {
+        let html = render("Note[^note].\n\n[^note]: Footnote text");
+        assert!(html.contains(r##"id="fnref-note""##));
+        assert!(html.contains(r##"href="#note""##));
+        assert!(html.contains(r##"href="#fnref-note""##));
+        assert!(html.contains("[1]"));
+        assert!(html.contains("본문으로 돌아가기"));
     }
 
     #[test]

@@ -55,20 +55,24 @@ blockquote {
 .post-meta { color: var(--muted); }
 sup.footnote-reference {
   margin: 0 0.1em;
-  font-size: 0.75em;
+  font-size: 0.82em;
   line-height: 1;
   vertical-align: super;
 }
 sup.footnote-reference a {
   display: inline-block;
-  min-width: 1.6em;
-  padding: 0.1em 0.35em;
-  border: 1px solid var(--rule);
+  padding: 0.08em 0.3em;
+  border: 2px solid var(--rule);
   background: var(--fg);
   color: var(--bg);
   text-align: center;
   text-decoration: none;
   font-weight: bold;
+}
+sup.footnote-reference a:hover,
+sup.footnote-reference a:focus {
+  background: var(--bg);
+  color: var(--fg);
 }
 .footnote-definition {
   display: grid;
@@ -88,6 +92,10 @@ sup.footnote-reference a {
 .footnote-definition p {
   display: inline;
   margin: 0;
+}
+.footnote-backref {
+  margin-left: 0.5em;
+  font-weight: bold;
 }
 table {
   border-collapse: collapse;
