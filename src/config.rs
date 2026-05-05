@@ -10,6 +10,8 @@ pub struct Config {
     pub description: String,
     pub base_url: String,
     pub language: String,
+    #[serde(default)]
+    pub google_analytics_id: Option<String>,
 }
 
 impl Config {
@@ -37,5 +39,6 @@ mod tests {
         assert_eq!(cfg.title, "Site");
         assert_eq!(cfg.base_url, "https://example.com");
         assert_eq!(cfg.language, "ko");
+        assert_eq!(cfg.google_analytics_id, None);
     }
 }

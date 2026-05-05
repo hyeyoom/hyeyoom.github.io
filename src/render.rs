@@ -34,11 +34,18 @@ pub struct Site<'a> {
 }
 
 fn site_value(cfg: &Config) -> serde_json::Value {
+    let google_analytics_id = cfg
+        .google_analytics_id
+        .as_deref()
+        .map(str::trim)
+        .filter(|id| !id.is_empty());
+
     json!({
         "title": cfg.title,
         "language": cfg.language,
         "author": cfg.author,
         "description": cfg.description,
+        "google_analytics_id": google_analytics_id,
     })
 }
 
@@ -160,6 +167,7 @@ mod tests {
             description: "D".into(),
             base_url: "https://example.com".into(),
             language: "ko".into(),
+            google_analytics_id: None,
         }
     }
 
@@ -212,6 +220,26 @@ mod tests {
         let site = Site { config: &cfg };
         let html = render_post(&renderer, &site, &test_post(false)).unwrap();
         assert!(!html.contains("katex"));
+    }
+
+    #[test]
+    fn post_html_includes_google_analytics_when_configured() {
+        let renderer = Renderer::new(&project_templates()).unwrap();
+        let mut cfg = test_config();
+        cfg.google_analytics_id = Some("G-TEST123".into());
+        let site = Site { config: &cfg };
+        let html = render_post(&renderer, &site, &test_post(false)).unwrap();
+        assert!(html.contains("googletagmanager.com/gtag/js?id=G-TEST123"));
+        assert!(html.contains("gtag('config', 'G-TEST123');"));
+    }
+
+    #[test]
+    fn post_html_omits_google_analytics_when_not_configured() {
+        let renderer = Renderer::new(&project_templates()).unwrap();
+        let cfg = test_config();
+        let site = Site { config: &cfg };
+        let html = render_post(&renderer, &site, &test_post(false)).unwrap();
+        assert!(!html.contains("googletagmanager.com/gtag/js"));
     }
 
     #[test]

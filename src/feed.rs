@@ -53,6 +53,7 @@ mod tests {
             description: "d".into(),
             base_url: "https://x.com".into(),
             language: "ko".into(),
+            google_analytics_id: None,
         }
     }
 
