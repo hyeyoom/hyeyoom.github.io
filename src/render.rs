@@ -31,14 +31,17 @@ impl Renderer {
 
 pub struct Site<'a> {
     pub config: &'a Config,
+    pub style_css: Option<&'a str>,
 }
 
-fn site_value(cfg: &Config) -> serde_json::Value {
+fn site_value(site: &Site) -> serde_json::Value {
+    let cfg = site.config;
     let google_analytics_id = cfg
         .google_analytics_id
         .as_deref()
         .map(str::trim)
         .filter(|id| !id.is_empty());
+    let style_css = site.style_css.map(str::trim).filter(|css| !css.is_empty());
 
     json!({
         "title": cfg.title,
@@ -46,6 +49,7 @@ fn site_value(cfg: &Config) -> serde_json::Value {
         "author": cfg.author,
         "description": cfg.description,
         "google_analytics_id": google_analytics_id,
+        "style_css": style_css,
     })
 }
 
@@ -70,7 +74,7 @@ pub fn render_post(renderer: &Renderer, site: &Site, post: &Post) -> Result<Stri
     .to_string();
 
     let mut ctx = Context::new();
-    ctx.insert("site", &site_value(site.config));
+    ctx.insert("site", &site_value(site));
     ctx.insert(
         "page_title",
         &format!("{} — {}", post.frontmatter.title, site.config.title),
@@ -107,7 +111,7 @@ pub fn render_index(renderer: &Renderer, site: &Site, articles: &[&Post]) -> Res
         .collect();
 
     let mut ctx = Context::new();
-    ctx.insert("site", &site_value(site.config));
+    ctx.insert("site", &site_value(site));
     ctx.insert("page_title", &site.config.title);
     ctx.insert("description", &site.config.description);
     ctx.insert("canonical", &canonical);
@@ -128,7 +132,7 @@ pub fn render_about(renderer: &Renderer, site: &Site, page: &Post) -> Result<Str
         .unwrap_or_else(|| site.config.description.clone());
 
     let mut ctx = Context::new();
-    ctx.insert("site", &site_value(site.config));
+    ctx.insert("site", &site_value(site));
     ctx.insert(
         "page_title",
         &format!("About — {}", site.config.title),
@@ -193,7 +197,10 @@ mod tests {
     fn post_html_includes_seo_metadata() {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let cfg = test_config();
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let html = render_post(&renderer, &site, &test_post(false)).unwrap();
         assert!(html.contains("<title>Hello — S</title>"));
         assert!(html.contains("og:title"));
@@ -202,13 +209,18 @@ mod tests {
         assert!(html.contains("application/ld+json"));
         assert!(html.contains("\"@type\":\"Article\""));
         assert!(html.contains("<strong>bold</strong>"));
+        assert!(html.contains("<style>body{}</style>"));
+        assert!(!html.contains("href=\"/style.css\""));
     }
 
     #[test]
     fn post_html_includes_katex_when_math_true() {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let cfg = test_config();
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let html = render_post(&renderer, &site, &test_post(true)).unwrap();
         assert!(html.contains("katex"));
     }
@@ -217,7 +229,10 @@ mod tests {
     fn post_html_omits_katex_when_math_false() {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let cfg = test_config();
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let html = render_post(&renderer, &site, &test_post(false)).unwrap();
         assert!(!html.contains("katex"));
     }
@@ -227,17 +242,25 @@ mod tests {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let mut cfg = test_config();
         cfg.google_analytics_id = Some("G-TEST123".into());
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let html = render_post(&renderer, &site, &test_post(false)).unwrap();
-        assert!(html.contains("googletagmanager.com/gtag/js?id=G-TEST123"));
-        assert!(html.contains("gtag('config', 'G-TEST123');"));
+        assert!(html.contains("var id = 'G-TEST123';"));
+        assert!(html.contains("requestIdleCallback"));
+        assert!(html.contains("googletagmanager.com/gtag/js?id="));
+        assert!(html.contains("gtag('config', id);"));
     }
 
     #[test]
     fn post_html_omits_google_analytics_when_not_configured() {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let cfg = test_config();
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let html = render_post(&renderer, &site, &test_post(false)).unwrap();
         assert!(!html.contains("googletagmanager.com/gtag/js"));
     }
@@ -246,7 +269,10 @@ mod tests {
     fn index_html_lists_articles() {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let cfg = test_config();
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let post = test_post(false);
         let html = render_index(&renderer, &site, &[&post]).unwrap();
         assert!(html.contains("Hello"));
@@ -258,7 +284,10 @@ mod tests {
     fn about_html_renders_body() {
         let renderer = Renderer::new(&project_templates()).unwrap();
         let cfg = test_config();
-        let site = Site { config: &cfg };
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
         let mut about = test_post(false);
         about.slug = "about".into();
         about.kind = PostKind::Page;

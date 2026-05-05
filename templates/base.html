@@ -2,14 +2,6 @@
 <html lang="{{ site.language }}">
 <head>
 <meta charset="utf-8">
-{% if site.google_analytics_id %}<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics_id }}"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '{{ site.google_analytics_id }}');
-</script>
-{% endif %}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ page_title }}</title>
 <meta name="description" content="{{ description }}">
@@ -19,11 +11,8 @@ gtag('config', '{{ site.google_analytics_id }}');
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:url" content="{{ canonical | safe }}">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="/style.css">
-{% if math %}<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
-{% endif %}
+{% if site.style_css %}<style>{{ site.style_css | safe }}</style>{% endif %}
+{% if math %}<style>.katex-display { overflow-x: auto; overflow-y: hidden; }</style>{% endif %}
 {% if json_ld %}<script type="application/ld+json">{{ json_ld | safe }}</script>{% endif %}
 </head>
 <body>
@@ -35,5 +24,88 @@ gtag('config', '{{ site.google_analytics_id }}');
 {% block content %}{% endblock %}
 </main>
 <footer class="site-footer">&mdash; {{ site.author }} &mdash;</footer>
+{% if math %}<script>
+(function(){
+  var loaded = false;
+  function loadScript(src, onload){
+    var script = document.createElement('script');
+    script.defer = true;
+    script.src = src;
+    script.onload = onload;
+    document.head.appendChild(script);
+  }
+  function renderMath(){
+    if (window.renderMathInElement) {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ]
+      });
+    }
+  }
+  function loadMath(){
+    if (loaded) return;
+    loaded = true;
+    var css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css';
+    document.head.appendChild(css);
+    loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js', function(){
+      loadScript('https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js', renderMath);
+    });
+  }
+  function scheduleMath(){
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadMath, { timeout: 5000 });
+    } else {
+      setTimeout(loadMath, 3000);
+    }
+  }
+  if (document.readyState === 'complete') {
+    scheduleMath();
+  } else {
+    window.addEventListener('load', scheduleMath, { once: true });
+  }
+})();
+</script>
+{% endif %}
+{% if site.google_analytics_id %}<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+(function(){
+  var id = '{{ site.google_analytics_id }}';
+  var loaded = false;
+  function loadAnalytics(){
+    if (loaded) return;
+    loaded = true;
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+    document.head.appendChild(script);
+    gtag('js', new Date());
+    gtag('config', id);
+  }
+  function scheduleAnalytics(){
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadAnalytics, { timeout: 10000 });
+    } else {
+      setTimeout(loadAnalytics, 8000);
+    }
+  }
+  ['pointerdown', 'keydown', 'scroll'].forEach(function(eventName){
+    window.addEventListener(eventName, loadAnalytics, { once: true, passive: true });
+  });
+  function loadLater(){
+    setTimeout(scheduleAnalytics, 8000);
+  }
+  if (document.readyState === 'complete') {
+    loadLater();
+  } else {
+    window.addEventListener('load', loadLater, { once: true });
+  }
+})();
+</script>
+{% endif %}
 </body>
 </html>

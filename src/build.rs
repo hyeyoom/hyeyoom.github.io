@@ -22,9 +22,13 @@ pub fn run(project_root: &Path) -> Result<()> {
 
     println!("loading templates");
     let renderer = render::Renderer::new(&templates_dir)?;
+    let style_css = fs::read_to_string(static_dir.join("style.css")).ok();
     println!("scanning content/");
     let posts = scanner::scan(&content_dir)?;
-    let site = render::Site { config: &config };
+    let site = render::Site {
+        config: &config,
+        style_css: style_css.as_deref(),
+    };
 
     let mut articles: Vec<&_> = posts
         .iter()
