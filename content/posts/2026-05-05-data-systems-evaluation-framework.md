@@ -414,6 +414,17 @@ CAP의 0/1 선택을 연속적으로:
 
 ---
 
+### MySQL
+
+- **Invariants.** InnoDB 기준 ACID. 기본 isolation은 `REPEATABLE READ`이며, consistent read는 트랜잭션의 첫 read가 만든 snapshot을 본다. `SERIALIZABLE`도 가능하지만 보통은 locking 비용 때문에 특수한 경우에 쓴다. 단일 primary + binlog/redo log 기반 durability가 기본이고, semi-sync replication이나 Group Replication으로 멀티노드 durability를 보강한다.
+- **Performance.** OLTP p50 1–5ms, p99 10–50ms 자릿수. read-heavy 서비스에서 read replica와 connection pool 조합이 강하다. write throughput은 단일 primary, hot index, secondary index 수, fsync 정책에 묶인다.
+- **Workload.** 전통적인 웹 OLTP, 관계형 모델, JOIN, point lookup, range scan, secondary index, foreign key. **약함**: write-heavy global scale, 복잡한 analytical scan, online schema change가 잦은 대형 테이블.
+- **Failure.** replication lag, failover 중 write 중단, split-brain 방지, schema migration lock이 운영 포인트. MySQL 특유의 gap lock/next-key lock, deadlock, long transaction이 tail latency를 키울 수 있다.
+
+**한 줄.** 웹 OLTP의 표준기. 단순하고 빠른 관계형 SoR이 필요하면 여전히 강력하다. 다만 scale-out은 애플리케이션/운영 설계가 함께 따라와야 한다.
+
+---
+
 ### Postgres
 
 - **Invariants.** 트랜잭션 SERIALIZABLE 가능 (SSI, Cahill et al. 2008 — MVCC 위에서 true serializability 제공). 기본은 READ COMMITTED. WAL fsync로 단일 노드 durability, 동기 복제(`synchronous_commit=remote_apply`)로 멀티노드 durability. **Logical replication**으로 cross-version/cross-DB 가능.
@@ -433,6 +444,17 @@ CAP의 0/1 선택을 연속적으로:
 - **Failure.** gossip 기반, 노드 다수 손실 견딤. partition 시 AP. 운영 난이도 높음(compaction, repair, tombstone).
 
 **한 줄.** 쓰기 폭주 + key 기반 access + 수평 확장 필수일 때. SQL 비슷해 보이지만 NoSQL 마인드 필수.
+
+---
+
+### MongoDB
+
+- **Invariants.** Document 단위 atomicity가 기본. multi-document transaction도 지원하지만, transaction read/write concern과 primary routing 조건을 이해해야 한다. default read concern은 `local`이라 rollback될 수 있는 데이터를 읽을 수 있고, 일반 replica set의 implicit default write concern은 대체로 `w: majority`다(arbiter 구성 예외 있음). causal consistency는 session + majority read/write concern 조합에서 의미가 있다.
+- **Performance.** single-document CRUD는 ms 자릿수로 빠르다. secondary index와 working set이 메모리에 잘 맞으면 OLTP 성능이 좋다. multi-document transaction, scatter-gather query, large document update는 p99 꼬리를 만든다.
+- **Workload.** document shape, nested data, flexible schema, aggregate pipeline, event/document store, product/catalog/profile 데이터. **약함**: 강한 relational constraint, 복잡 JOIN, 고빈도 cross-document transaction, 무계획 schema drift.
+- **Failure.** replica set election 중 write 일시 중단. read preference에 따라 stale secondary read 가능. shard key를 잘못 잡으면 jumbo chunk, hot shard, scatter-gather query로 성능이 무너진다.
+
+**한 줄.** document 모델이 도메인 모양과 맞을 때 생산성이 높다. 다만 “schema가 없다”가 아니라 “schema를 애플리케이션이 책임진다”에 가깝다.
 
 ---
 
@@ -617,6 +639,10 @@ CAP의 0/1 선택을 연속적으로:
 - AWS. *DynamoDB read consistency*. 공식 문서.
 - AWS. *DynamoDB Transactions: How it works*. 공식 문서.
 - AWS. *Amazon S3 Strong Consistency*. 공식 문서.
+- Oracle. *MySQL Reference Manual: InnoDB Transaction Isolation Levels*. 공식 문서.
+- Oracle. *MySQL Reference Manual: InnoDB Transaction Model*. 공식 문서.
+- MongoDB. *Default MongoDB Read Concerns/Write Concerns*. 공식 문서.
+- MongoDB. *Transactions*. 공식 문서.
 
 ---
 
