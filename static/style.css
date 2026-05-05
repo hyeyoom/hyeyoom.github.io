@@ -53,8 +53,42 @@ blockquote {
 .post-list li { padding: 0.3em 0; }
 .post-list .date { color: var(--muted); margin-right: 1em; }
 .post-meta { color: var(--muted); }
-.footnote-definition { font-size: 0.9em; color: var(--muted); }
-.footnote-definition p { margin: 0.3em 0; }
+sup.footnote-reference {
+  margin: 0 0.1em;
+  font-size: 0.75em;
+  line-height: 1;
+  vertical-align: super;
+}
+sup.footnote-reference a {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--rule);
+  background: var(--fg);
+  color: var(--bg);
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}
+.footnote-definition {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35em 0.6em;
+  align-items: baseline;
+  margin: 0.65em 0;
+  color: var(--fg);
+  font-size: 0.95em;
+}
+.footnote-definition sup {
+  font-size: 1em;
+  font-weight: bold;
+}
+.footnote-definition sup::before { content: "["; }
+.footnote-definition sup::after { content: "]"; }
+.footnote-definition p {
+  display: inline;
+  margin: 0;
+}
 table {
   border-collapse: collapse;
   margin: 1em 0;
