@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ site.title | upper }}</h1>
+<p>{{ site.description }}</p>
+<hr>
+<ul class="post-list">
+{% for post in posts %}
+<li><span class="date">{{ post.date }}</span> &mdash; <a href="{{ post.url | safe }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

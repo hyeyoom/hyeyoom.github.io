@@ -1,6 +1,0 @@
-User-agent: *
-Disallow: /assets/
-Disallow: /favicon.ico
-Disallow: /CNAME
-
-Sitemap: https://chiho.wiki/sitemap.xml
