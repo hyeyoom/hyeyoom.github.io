@@ -118,9 +118,14 @@ sup.footnote-reference a:focus {
   overflow-wrap: anywhere;
   word-break: break-word;
 }
-.footnote-backref {
+.footnote-backrefs {
   margin-left: 0.5em;
+}
+.footnote-backref {
   font-weight: bold;
+}
+.footnote-backref-extra {
+  margin-left: 0.35em;
 }
 table {
   border-collapse: collapse;

@@ -52,45 +52,92 @@ pub fn render(md: &str) -> String {
 }
 
 fn enhance_footnotes(html: &str) -> String {
-    let mut out = html.to_string();
+    let needle = "<sup class=\"footnote-reference\"><a href=\"#";
+    let close = "</a></sup>";
+    let mut out = String::with_capacity(html.len());
+    let mut rest = html;
+    let mut refs: Vec<(String, String, String, usize)> = Vec::new();
 
-    for idx in 1..=99 {
-        let needle = "<sup class=\"footnote-reference\"><a href=\"#";
-        let Some(start) = out.find(&needle) else {
-            break;
-        };
+    while let Some(start) = rest.find(needle) {
+        out.push_str(&rest[..start]);
+
         let href_start = start + needle.len();
-        let Some(href_end_rel) = out[href_start..].find("\">") else {
+        let Some(href_end_rel) = rest[href_start..].find("\">") else {
+            out.push_str(&rest[start..]);
+            rest = "";
             break;
         };
         let href_end = href_start + href_end_rel;
-        let footnote_id = out[href_start..href_end].to_string();
-        let old_ref = format!(
-            r##"<sup class="footnote-reference"><a href="#{}">{}</a></sup>"##,
-            footnote_id, idx
-        );
-        let new_ref = format!(
-            r##"<sup class="footnote-reference" id="fnref-{}"><a href="#{}" aria-label="각주 {} 보기">[{}]</a></sup>"##,
-            footnote_id, footnote_id, idx, idx
-        );
-        out = out.replacen(&old_ref, &new_ref, 1);
+        let footnote_id = &rest[href_start..href_end];
+        let label_start = href_end + 2;
+        let Some(label_end_rel) = rest[label_start..].find(close) else {
+            out.push_str(&rest[start..]);
+            rest = "";
+            break;
+        };
+        let label_end = label_start + label_end_rel;
+        let label = &rest[label_start..label_end];
+        let after_ref = label_end + close.len();
+        let ordinal = refs
+            .iter()
+            .filter(|(seen_id, _, _, _)| seen_id == footnote_id)
+            .count()
+            + 1;
+        let ref_id = if ordinal == 1 {
+            format!("fnref-{}", footnote_id)
+        } else {
+            format!("fnref-{}-{}", footnote_id, ordinal)
+        };
+        refs.push((
+            footnote_id.to_string(),
+            label.to_string(),
+            ref_id.clone(),
+            ordinal,
+        ));
+        out.push_str(&format!(
+            r##"<sup class="footnote-reference" id="{}"><a href="#{}" aria-label="각주 {} 보기">[{}]</a></sup>"##,
+            ref_id, footnote_id, label, label
+        ));
+
+        rest = &rest[after_ref..];
+    }
+
+    out.push_str(rest);
+
+    let mut linked_definitions: Vec<String> = Vec::new();
+    for (footnote_id, label, ref_id, _) in &refs {
+        if linked_definitions.iter().any(|id| id == footnote_id) {
+            continue;
+        }
+        linked_definitions.push(footnote_id.clone());
 
         let definition = format!(r#"<div class="footnote-definition" id="{}">"#, footnote_id);
         if out.contains(&definition) {
             let old_label = format!(
                 r#"<div class="footnote-definition" id="{}"><sup class="footnote-definition-label">{}</sup>"#,
-                footnote_id, idx
+                footnote_id, label
             );
             let new_label = format!(
                 r##"<div class="footnote-definition" id="{}"><sup class="footnote-definition-label"><a href="#fnref-{}" aria-label="본문 각주 {}로 돌아가기">{}</a></sup>"##,
-                footnote_id, footnote_id, idx, idx
+                footnote_id, footnote_id, label, label
             );
             out = out.replacen(&old_label, &new_label, 1);
 
-            let backlink = format!(
-                r##" <a class="footnote-backref" href="#fnref-{}" aria-label="본문 각주 {}로 돌아가기">본문으로 돌아가기 ↑</a>"##,
-                footnote_id, idx
+            let related_refs: Vec<_> = refs
+                .iter()
+                .filter(|(id, _, _, _)| id == footnote_id)
+                .collect();
+            let mut backlink = format!(
+                r##" <span class="footnote-backrefs"><a class="footnote-backref" href="#{}" aria-label="본문 각주 {}로 돌아가기">본문으로 돌아가기 ↑</a>"##,
+                ref_id, label
             );
+            for (_, repeated_label, repeated_ref_id, ordinal) in related_refs.iter().skip(1) {
+                backlink.push_str(&format!(
+                    r##" <a class="footnote-backref footnote-backref-extra" href="#{}" aria-label="본문 각주 {}의 {}번째 참조로 돌아가기">↑{}</a>"##,
+                    repeated_ref_id, repeated_label, ordinal, ordinal
+                ));
+            }
+            backlink.push_str("</span>");
             let search_from = out.find(&definition).unwrap_or(0);
             if let Some(close_rel) = out[search_from..].find("</p>") {
                 let close = search_from + close_rel;
@@ -144,6 +191,18 @@ mod tests {
         assert!(html.contains(r##"footnote-definition-label"><a href="#fnref-note""##));
         assert!(html.contains("[1]"));
         assert!(html.contains("본문으로 돌아가기"));
+    }
+
+    #[test]
+    fn repeated_footnote_refs_have_one_backlink() {
+        let html = render("One[^note]. Two[^note].\n\n[^note]: Footnote text");
+
+        assert_eq!(html.matches("본문으로 돌아가기").count(), 1);
+        assert_eq!(html.matches(r##"id="fnref-note""##).count(), 1);
+        assert_eq!(html.matches(r##"id="fnref-note-2""##).count(), 1);
+        assert_eq!(html.matches(r##"href="#note" aria-label="각주 1 보기">[1]"##).count(), 2);
+        assert!(html.contains(r##"href="#fnref-note-2""##));
+        assert!(html.contains(">↑2</a>"));
     }
 
     #[test]
