@@ -22,6 +22,23 @@ fn cargo_run_build_produces_complete_site() {
     assert!(index.contains("Hello, World"));
     assert!(index.contains("/posts/hello-world/"));
     assert!(index.contains("og:type"));
+    assert!(index.contains("href=\"/search/\""));
+    assert!(!index.contains("site-search-input"));
+    assert!(!index.contains("/search.js"));
+
+    let search_page = fs::read_to_string(public.join("search/index.html")).unwrap();
+    assert!(search_page.contains("SEARCH"));
+    assert!(search_page.contains("site-search-input"));
+    assert!(search_page.contains("/search.js"));
+
+    let search_index = fs::read_to_string(public.join("search-index.json")).unwrap();
+    assert!(search_index.contains("Hello, World"));
+    assert!(search_index.contains("/posts/hello-world/"));
+    assert!(search_index.contains("keywords"));
+
+    let search_js = fs::read_to_string(public.join("search.js")).unwrap();
+    assert!(search_js.contains("search-index.json"));
+    assert!(search_js.contains("site-search-input"));
 
     let post = fs::read_to_string(public.join("posts/hello-world/index.html")).unwrap();
     assert!(post.contains("Hello, World"));

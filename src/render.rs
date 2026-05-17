@@ -121,6 +121,20 @@ pub fn render_index(renderer: &Renderer, site: &Site, articles: &[&Post]) -> Res
     renderer.render("index.html", &ctx)
 }
 
+pub fn render_search(renderer: &Renderer, site: &Site) -> Result<String> {
+    let base = site.config.base_url.trim_end_matches('/');
+    let canonical = format!("{}/search/", base);
+
+    let mut ctx = Context::new();
+    ctx.insert("site", &site_value(site));
+    ctx.insert("page_title", &format!("Search — {}", site.config.title));
+    ctx.insert("description", &site.config.description);
+    ctx.insert("canonical", &canonical);
+    ctx.insert("og_type", "website");
+    ctx.insert("math", &false);
+    renderer.render("search.html", &ctx)
+}
+
 pub fn render_about(renderer: &Renderer, site: &Site, page: &Post) -> Result<String> {
     let body_html = markdown::render(&page.body_md);
     let base = site.config.base_url.trim_end_matches('/');

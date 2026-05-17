@@ -6,6 +6,7 @@ mod markdown;
 mod new;
 mod render;
 mod scanner;
+mod search;
 mod sitemap;
 
 use anyhow::Result;

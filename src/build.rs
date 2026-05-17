@@ -1,6 +1,6 @@
 use crate::config::Config;
 use crate::content::{parse_published, PostKind};
-use crate::{feed, render, scanner, sitemap};
+use crate::{feed, render, scanner, search, sitemap};
 use anyhow::{Context, Result};
 use std::fs;
 use std::path::Path;
@@ -49,6 +49,20 @@ pub fn run(project_root: &Path) -> Result<()> {
     println!("rendering index");
     let index_html = render::render_index(&renderer, &site, &articles)?;
     fs::write(public_dir.join("index.html"), index_html)?;
+
+    println!("writing search-index.json");
+    fs::write(
+        public_dir.join("search-index.json"),
+        search::build_json(&articles)?,
+    )?;
+
+    println!("rendering search");
+    let search_dir = public_dir.join("search");
+    fs::create_dir_all(&search_dir)?;
+    fs::write(
+        search_dir.join("index.html"),
+        render::render_search(&renderer, &site)?,
+    )?;
 
     for post in &articles {
         println!("rendering post: {}", post.slug);

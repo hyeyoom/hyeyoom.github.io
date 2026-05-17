@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>SEARCH</h1>
+<hr>
+<section class="site-search" aria-label="글 검색">
+<label for="site-search-input">QUERY</label>
+<input id="site-search-input" type="search" autocomplete="off" autofocus placeholder="검색어를 입력하세요">
+<div id="site-search-results" class="site-search-results" aria-live="polite"></div>
+</section>
+<script src="/search.js" defer></script>
+{% endblock %}
