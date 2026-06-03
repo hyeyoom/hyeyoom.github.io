@@ -7,7 +7,7 @@ Rust로 작성한 본인용 미니멀 정적 사이트 생성기.
 새 글:
 
     cargo run -- new "글 제목"
-
+ 
 빌드:
 
     cargo run -- build
