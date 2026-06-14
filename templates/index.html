@@ -8,4 +8,12 @@
 <li><span class="date">{{ post.date }}</span> &mdash; <a href="{{ post.url | safe }}">{{ post.title }}</a></li>
 {% endfor %}
 </ul>
+{% if translations | length > 0 %}
+<h2>TRANSLATIONS</h2>
+<ul class="post-list">
+{% for post in translations %}
+<li><span class="date">{{ post.date }}</span> &mdash; <a href="{{ post.url | safe }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

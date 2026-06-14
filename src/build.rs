@@ -7,8 +7,8 @@ use std::path::Path;
 
 pub fn run(project_root: &Path) -> Result<()> {
     println!("loading config.toml");
-    let config = Config::load(&project_root.join("config.toml"))
-        .with_context(|| "loading config.toml")?;
+    let config =
+        Config::load(&project_root.join("config.toml")).with_context(|| "loading config.toml")?;
     let templates_dir = project_root.join("templates");
     let content_dir = project_root.join("content");
     let static_dir = project_root.join("static");
@@ -34,26 +34,38 @@ pub fn run(project_root: &Path) -> Result<()> {
         .iter()
         .filter(|p| p.kind == PostKind::Article)
         .collect();
+    let mut translations: Vec<&_> = posts
+        .iter()
+        .filter(|p| p.kind == PostKind::Translation)
+        .collect();
     // datetime desc 정렬. 파싱 실패한 글은 끝(가장 오래된)으로.
     articles.sort_by(|a, b| {
         let pa = parse_published(&a.frontmatter.date).ok();
         let pb = parse_published(&b.frontmatter.date).ok();
         pb.cmp(&pa)
     });
+    translations.sort_by(|a, b| {
+        let pa = parse_published(&a.frontmatter.date).ok();
+        let pb = parse_published(&b.frontmatter.date).ok();
+        pb.cmp(&pa)
+    });
     println!(
-        "  found {} article(s), {} page(s)",
+        "  found {} article(s), {} translation(s), {} page(s)",
         articles.len(),
-        posts.len() - articles.len()
+        translations.len(),
+        posts.len() - articles.len() - translations.len()
     );
 
     println!("rendering index");
-    let index_html = render::render_index(&renderer, &site, &articles)?;
+    let index_html = render::render_index(&renderer, &site, &articles, &translations)?;
     fs::write(public_dir.join("index.html"), index_html)?;
 
     println!("writing search-index.json");
+    let mut search_posts = articles.clone();
+    search_posts.extend(translations.iter().copied());
     fs::write(
         public_dir.join("search-index.json"),
-        search::build_json(&articles)?,
+        search::build_json(&search_posts)?,
     )?;
 
     println!("rendering search");
@@ -67,6 +79,22 @@ pub fn run(project_root: &Path) -> Result<()> {
     for post in &articles {
         println!("rendering post: {}", post.slug);
         let dir = public_dir.join("posts").join(&post.slug);
+        fs::create_dir_all(&dir)?;
+        let html = render::render_post(&renderer, &site, post)?;
+        fs::write(dir.join("index.html"), html)?;
+    }
+
+    println!("rendering translations index");
+    let translations_dir = public_dir.join("translations");
+    fs::create_dir_all(&translations_dir)?;
+    fs::write(
+        translations_dir.join("index.html"),
+        render::render_translations_index(&renderer, &site, &translations)?,
+    )?;
+
+    for post in &translations {
+        println!("rendering translation: {}", post.slug);
+        let dir = translations_dir.join(&post.slug);
         fs::create_dir_all(&dir)?;
         let html = render::render_post(&renderer, &site, post)?;
         fs::write(dir.join("index.html"), html)?;
@@ -93,7 +121,16 @@ pub fn run(project_root: &Path) -> Result<()> {
             .map(|dt| dt.to_rfc3339())
             .unwrap_or_else(|_| p.frontmatter.date.clone());
         urls.push(sitemap::SitemapUrl {
-            loc: format!("{}/posts/{}/", base, p.slug),
+            loc: format!("{}{}", base, p.public_url_path()),
+            lastmod: Some(lastmod),
+        });
+    }
+    for p in &translations {
+        let lastmod = parse_published(&p.frontmatter.date)
+            .map(|dt| dt.to_rfc3339())
+            .unwrap_or_else(|_| p.frontmatter.date.clone());
+        urls.push(sitemap::SitemapUrl {
+            loc: format!("{}{}", base, p.public_url_path()),
             lastmod: Some(lastmod),
         });
     }
@@ -107,14 +144,20 @@ pub fn run(project_root: &Path) -> Result<()> {
         });
     }
     println!("writing sitemap.xml ({} urls)", urls.len());
-    fs::write(public_dir.join("sitemap.xml"), sitemap::build_sitemap(&urls))?;
+    fs::write(
+        public_dir.join("sitemap.xml"),
+        sitemap::build_sitemap(&urls),
+    )?;
     println!("writing robots.txt");
     fs::write(
         public_dir.join("robots.txt"),
         sitemap::build_robots(&config.base_url),
     )?;
     println!("writing rss.xml ({} items)", articles.len().min(20));
-    fs::write(public_dir.join("rss.xml"), feed::build_rss(&config, &articles))?;
+    fs::write(
+        public_dir.join("rss.xml"),
+        feed::build_rss(&config, &articles),
+    )?;
 
     if static_dir.exists() {
         println!("copying static/");

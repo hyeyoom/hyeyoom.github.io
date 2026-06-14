@@ -6,23 +6,29 @@ use walkdir::WalkDir;
 
 pub fn scan(content_dir: &Path) -> Result<Vec<Post>> {
     let posts_root = content_dir.join("posts");
+    let translations_root = content_dir.join("translations");
+    let drafts_root = content_dir.join("drafts");
     let mut posts = Vec::new();
     for entry in WalkDir::new(content_dir).into_iter().filter_map(|e| e.ok()) {
         let path = entry.path();
         if !path.is_file() {
             continue;
         }
+        if path.starts_with(&drafts_root) {
+            continue;
+        }
         if path.extension().and_then(|s| s.to_str()) != Some("md") {
             continue;
         }
-        let raw = fs::read_to_string(path)
-            .with_context(|| format!("read {}", path.display()))?;
+        let raw = fs::read_to_string(path).with_context(|| format!("read {}", path.display()))?;
         let (fm, body) = split_frontmatter(&raw)
             .with_context(|| format!("frontmatter in {}", path.display()))?;
         let stem = path.file_stem().unwrap().to_string_lossy();
         let slug = slug_from_filename(&stem);
         let kind = if path.starts_with(&posts_root) {
             PostKind::Article
+        } else if path.starts_with(&translations_root) {
+            PostKind::Translation
         } else {
             PostKind::Page
         };
@@ -72,5 +78,28 @@ mod tests {
         fs::write(dir.path().join("note.txt"), "x").unwrap();
         let posts = scan(dir.path()).unwrap();
         assert!(posts.is_empty());
+    }
+
+    #[test]
+    fn scans_translations_and_ignores_drafts() {
+        let dir = tempdir().unwrap();
+        fs::create_dir_all(dir.path().join("translations")).unwrap();
+        fs::create_dir_all(dir.path().join("drafts/blog")).unwrap();
+        fs::write(
+            dir.path().join("translations/2026-06-14-paper.md"),
+            "+++\ntitle = \"Paper\"\ndate = \"2026-06-14\"\n+++\ntranslation",
+        )
+        .unwrap();
+        fs::write(
+            dir.path().join("drafts/blog/2026-06-14-draft.md"),
+            "+++\ntitle = \"Draft\"\ndate = \"2026-06-14\"\n+++\ndraft",
+        )
+        .unwrap();
+
+        let posts = scan(dir.path()).unwrap();
+
+        assert_eq!(posts.len(), 1);
+        assert_eq!(posts[0].kind, crate::content::PostKind::Translation);
+        assert_eq!(posts[0].slug, "paper");
     }
 }

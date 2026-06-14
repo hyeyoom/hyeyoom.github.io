@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>TRANSLATIONS</h1>
+<ul class="post-list">
+{% for post in translations %}
+<li><span class="date">{{ post.date }}</span> &mdash; <a href="{{ post.url | safe }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

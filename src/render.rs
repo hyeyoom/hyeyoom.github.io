@@ -56,7 +56,7 @@ fn site_value(site: &Site) -> serde_json::Value {
 pub fn render_post(renderer: &Renderer, site: &Site, post: &Post) -> Result<String> {
     let body_html = markdown::render(&post.body_md);
     let base = site.config.base_url.trim_end_matches('/');
-    let canonical = format!("{}/posts/{}/", base, post.slug);
+    let canonical = format!("{}{}", base, post.public_url_path());
     let description = post
         .frontmatter
         .description
@@ -95,20 +95,16 @@ pub fn render_post(renderer: &Renderer, site: &Site, post: &Post) -> Result<Stri
     renderer.render("post.html", &ctx)
 }
 
-pub fn render_index(renderer: &Renderer, site: &Site, articles: &[&Post]) -> Result<String> {
+pub fn render_index(
+    renderer: &Renderer,
+    site: &Site,
+    articles: &[&Post],
+    translations: &[&Post],
+) -> Result<String> {
     let base = site.config.base_url.trim_end_matches('/');
     let canonical = format!("{}/", base);
-    let posts: Vec<_> = articles
-        .iter()
-        .map(|p| {
-            let (display_date, _) = post_dates(&p.frontmatter.date);
-            json!({
-                "title": p.frontmatter.title,
-                "date": display_date,
-                "url": format!("/posts/{}/", p.slug),
-            })
-        })
-        .collect();
+    let posts: Vec<_> = index_entries(articles);
+    let translations: Vec<_> = index_entries(translations);
 
     let mut ctx = Context::new();
     ctx.insert("site", &site_value(site));
@@ -118,7 +114,22 @@ pub fn render_index(renderer: &Renderer, site: &Site, articles: &[&Post]) -> Res
     ctx.insert("og_type", "website");
     ctx.insert("math", &false);
     ctx.insert("posts", &posts);
+    ctx.insert("translations", &translations);
     renderer.render("index.html", &ctx)
+}
+
+fn index_entries(posts: &[&Post]) -> Vec<serde_json::Value> {
+    posts
+        .iter()
+        .map(|p| {
+            let (display_date, _) = post_dates(&p.frontmatter.date);
+            json!({
+                "title": p.frontmatter.title,
+                "date": display_date,
+                "url": p.public_url_path(),
+            })
+        })
+        .collect()
 }
 
 pub fn render_search(renderer: &Renderer, site: &Site) -> Result<String> {
@@ -135,6 +146,29 @@ pub fn render_search(renderer: &Renderer, site: &Site) -> Result<String> {
     renderer.render("search.html", &ctx)
 }
 
+pub fn render_translations_index(
+    renderer: &Renderer,
+    site: &Site,
+    translations: &[&Post],
+) -> Result<String> {
+    let base = site.config.base_url.trim_end_matches('/');
+    let canonical = format!("{}/translations/", base);
+    let translations = index_entries(translations);
+
+    let mut ctx = Context::new();
+    ctx.insert("site", &site_value(site));
+    ctx.insert(
+        "page_title",
+        &format!("Translations — {}", site.config.title),
+    );
+    ctx.insert("description", &site.config.description);
+    ctx.insert("canonical", &canonical);
+    ctx.insert("og_type", "website");
+    ctx.insert("math", &false);
+    ctx.insert("translations", &translations);
+    renderer.render("translations.html", &ctx)
+}
+
 pub fn render_about(renderer: &Renderer, site: &Site, page: &Post) -> Result<String> {
     let body_html = markdown::render(&page.body_md);
     let base = site.config.base_url.trim_end_matches('/');
@@ -147,10 +181,7 @@ pub fn render_about(renderer: &Renderer, site: &Site, page: &Post) -> Result<Str
 
     let mut ctx = Context::new();
     ctx.insert("site", &site_value(site));
-    ctx.insert(
-        "page_title",
-        &format!("About — {}", site.config.title),
-    );
+    ctx.insert("page_title", &format!("About — {}", site.config.title));
     ctx.insert("description", &description);
     ctx.insert("canonical", &canonical);
     ctx.insert("og_type", "website");
@@ -200,6 +231,20 @@ mod tests {
             },
             body_md: "Body **bold**".into(),
             kind: PostKind::Article,
+        }
+    }
+
+    fn test_translation() -> Post {
+        Post {
+            slug: "paper".into(),
+            frontmatter: Frontmatter {
+                title: "Paper".into(),
+                date: "2026-06-14".into(),
+                description: Some("translated paper".into()),
+                math: false,
+            },
+            body_md: "Translated **body**".into(),
+            kind: PostKind::Translation,
         }
     }
 
@@ -288,10 +333,54 @@ mod tests {
             style_css: Some("body{}"),
         };
         let post = test_post(false);
-        let html = render_index(&renderer, &site, &[&post]).unwrap();
+        let html = render_index(&renderer, &site, &[&post], &[]).unwrap();
         assert!(html.contains("Hello"));
         assert!(html.contains("/posts/hello/"));
         assert!(html.contains("og:type\" content=\"website\""));
+    }
+
+    #[test]
+    fn index_html_lists_translations_separately() {
+        let renderer = Renderer::new(&project_templates()).unwrap();
+        let cfg = test_config();
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
+        let translation = test_translation();
+        let html = render_index(&renderer, &site, &[], &[&translation]).unwrap();
+        assert!(html.contains("TRANSLATIONS"));
+        assert!(html.contains("Paper"));
+        assert!(html.contains("/translations/paper/"));
+    }
+
+    #[test]
+    fn translations_index_lists_translations() {
+        let renderer = Renderer::new(&project_templates()).unwrap();
+        let cfg = test_config();
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
+        let translation = test_translation();
+        let html = render_translations_index(&renderer, &site, &[&translation]).unwrap();
+        assert!(html.contains("<title>Translations — S</title>"));
+        assert!(html.contains("TRANSLATIONS"));
+        assert!(html.contains("Paper"));
+        assert!(html.contains("/translations/paper/"));
+        assert!(html.contains("https://example.com/translations/"));
+    }
+
+    #[test]
+    fn translation_html_uses_translation_canonical() {
+        let renderer = Renderer::new(&project_templates()).unwrap();
+        let cfg = test_config();
+        let site = Site {
+            config: &cfg,
+            style_css: Some("body{}"),
+        };
+        let html = render_post(&renderer, &site, &test_translation()).unwrap();
+        assert!(html.contains("https://example.com/translations/paper/"));
     }
 
     #[test]
