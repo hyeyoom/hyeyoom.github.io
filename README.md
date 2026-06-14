@@ -4,10 +4,26 @@ Rust로 작성한 본인용 미니멀 정적 사이트 생성기.
 
 ## 사용법
 
-새 글:
+블로그 draft:
+
+    cargo run -- blog draft "글 제목"
+
+블로그 publish:
+
+    cargo run -- blog publish 2026-06-14-title
+
+번역 draft:
+
+    cargo run -- translation draft "번역 제목"
+
+번역 publish:
+
+    cargo run -- translation publish 2026-06-14-title
+
+호환 alias:
 
     cargo run -- new "글 제목"
-
+ 
 빌드:
 
     cargo run -- build
@@ -32,7 +48,11 @@ Rust로 작성한 본인용 미니멀 정적 사이트 생성기.
 config.toml
 content/
   about.md
+  drafts/
+    blog/YYYY-MM-DD-slug.md
+    translations/YYYY-MM-DD-slug.md
   posts/YYYY-MM-DD-slug.md
+  translations/YYYY-MM-DD-slug.md
 templates/*.html
 static/style.css
 static/images/...

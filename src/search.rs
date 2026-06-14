@@ -132,7 +132,7 @@ fn build_entry(post: &Post, analyzer: &Analyzer) -> SearchEntry {
 
     SearchEntry {
         title: post.frontmatter.title.clone(),
-        url: format!("/posts/{}/", post.slug),
+        url: post.public_url_path(),
         date: post.frontmatter.date.clone(),
         description: post.frontmatter.description.clone(),
         excerpt: excerpt(&body_text, 180),
@@ -273,6 +273,18 @@ mod tests {
         assert!(json.contains("latency"));
         assert!(json.contains("latenc"));
         assert!(json.contains("/posts/latency-test/"));
+    }
+
+    #[test]
+    fn builds_translation_search_url() {
+        let mut sample = post();
+        sample.slug = "paper".into();
+        sample.kind = PostKind::Translation;
+
+        let json = build_json(&[&sample]).unwrap();
+
+        assert!(json.contains("/translations/paper/"));
+        assert!(!json.contains("/posts/paper/"));
     }
 
     #[test]

@@ -14,7 +14,18 @@ pub struct Frontmatter {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PostKind {
     Article,
+    Translation,
     Page,
+}
+
+impl PostKind {
+    pub fn collection_path(&self) -> Option<&'static str> {
+        match self {
+            PostKind::Article => Some("posts"),
+            PostKind::Translation => Some("translations"),
+            PostKind::Page => None,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -23,6 +34,15 @@ pub struct Post {
     pub frontmatter: Frontmatter,
     pub body_md: String,
     pub kind: PostKind,
+}
+
+impl Post {
+    pub fn public_url_path(&self) -> String {
+        match self.kind.collection_path() {
+            Some(collection) => format!("/{}/{}/", collection, self.slug),
+            None => format!("/{}/", self.slug),
+        }
+    }
 }
 
 pub fn split_frontmatter(input: &str) -> Result<(Frontmatter, String)> {
