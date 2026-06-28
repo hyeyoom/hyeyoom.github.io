@@ -16,12 +16,14 @@ fn theme_set() -> &'static ThemeSet {
 }
 
 pub fn render(md: &str) -> String {
+    let md = cjk_friendly_emphasis(md);
+
     let mut opts = Options::empty();
     opts.insert(Options::ENABLE_FOOTNOTES);
     opts.insert(Options::ENABLE_TABLES);
     opts.insert(Options::ENABLE_STRIKETHROUGH);
     opts.insert(Options::ENABLE_TASKLISTS);
-    let parser = Parser::new_ext(md, opts);
+    let parser = Parser::new_ext(&md, opts);
 
     let mut events: Vec<Event> = Vec::new();
     let mut in_code_lang: Option<String> = None;
@@ -49,6 +51,214 @@ pub fn render(md: &str) -> String {
     let mut out = String::new();
     html::push_html(&mut out, events.into_iter());
     enhance_footnotes(&out)
+}
+
+/// Zero-width space (U+200B). It belongs to the Unicode `Cf` (format) category,
+/// so CommonMark treats it as an ordinary character — neither whitespace nor
+/// punctuation.
+const ZWSP: char = '\u{200B}';
+
+/// Returns true for CJK "letters" (Hangul, Han ideographs, Kana). These are the
+/// characters that CommonMark classifies as ordinary characters, which is what
+/// breaks emphasis when an emphasis delimiter sits between such a character and
+/// a punctuation mark.
+fn is_cjk(c: char) -> bool {
+    matches!(c,
+        '\u{1100}'..='\u{11FF}'   // Hangul Jamo
+        | '\u{3040}'..='\u{30FF}' // Hiragana + Katakana
+        | '\u{3130}'..='\u{318F}' // Hangul Compatibility Jamo
+        | '\u{3400}'..='\u{4DBF}' // CJK Unified Ideographs Extension A
+        | '\u{4E00}'..='\u{9FFF}' // CJK Unified Ideographs
+        | '\u{A960}'..='\u{A97F}' // Hangul Jamo Extended-A
+        | '\u{AC00}'..='\u{D7A3}' // Hangul Syllables
+        | '\u{D7B0}'..='\u{D7FF}' // Hangul Jamo Extended-B
+        | '\u{F900}'..='\u{FAFF}' // CJK Compatibility Ideographs
+        | '\u{20000}'..='\u{2FA1F}' // CJK Ext B..F + Compatibility Supplement
+    )
+}
+
+/// Returns true for characters CommonMark treats as punctuation for the purpose
+/// of computing left/right-flanking delimiter runs. We cover ASCII punctuation
+/// (the common case) plus the CJK fullwidth/wide punctuation that frequently
+/// appears next to emphasis in Korean/Japanese/Chinese prose.
+fn is_md_punct(c: char) -> bool {
+    c.is_ascii_punctuation()
+        || matches!(c,
+            '\u{3001}' | '\u{3002}'      // 、 。
+            | '\u{3008}'..='\u{3011}'    // 〈〉《》「」『』【】
+            | '\u{3014}'..='\u{301B}'    // 〔〕〖〗〘〙〚〛
+            | '\u{FF01}' | '\u{FF08}' | '\u{FF09}' | '\u{FF0C}'  // ！（）、，
+            | '\u{FF1A}' | '\u{FF1B}' | '\u{FF1F}'               // ：；？
+        )
+}
+
+/// Works around CommonMark's emphasis flanking rules being unfriendly to CJK
+/// text. In CommonMark a `**`/`*`/`__`/`_` delimiter run that sits directly
+/// between a punctuation character and a CJK character is neither left- nor
+/// right-flanking (CJK letters count as ordinary characters, so the run is
+/// "stuck" to the punctuation), which means it cannot open or close emphasis.
+///
+/// For example `**가상 메모리(Virtual Memory)**라는` fails because the closing
+/// `**` is preceded by `)` (punctuation) and followed by `라` (a CJK letter),
+/// so it never closes the strong span and the literal `**` leak into the output.
+///
+/// We fix this by inserting a zero-width space between the delimiter run and the
+/// adjacent punctuation. The zero-width space is an ordinary character, so the
+/// run now sees an ordinary character on the punctuation side and an ordinary
+/// CJK character on the other side, restoring its flanking status. The inserted
+/// character is invisible in the rendered output.
+///
+/// Code (fenced blocks, indented blocks and inline code spans) is left
+/// untouched so that source code is never modified.
+fn cjk_friendly_emphasis(md: &str) -> String {
+    let mut out = String::with_capacity(md.len() + 16);
+    let mut fence: Option<(char, usize)> = None;
+    let mut first = true;
+
+    for line in md.split('\n') {
+        if !first {
+            out.push('\n');
+        }
+        first = false;
+
+        let trimmed = line.trim_start();
+        let indent = line.len() - trimmed.len();
+
+        // Inside a fenced code block: copy verbatim, watching for the close.
+        if let Some((fc, flen)) = fence {
+            out.push_str(line);
+            let closes = trimmed.chars().take_while(|&c| c == fc).count() >= flen
+                && trimmed.chars().all(|c| c == fc || c.is_whitespace());
+            if closes {
+                fence = None;
+            }
+            continue;
+        }
+
+        // Opening of a fenced code block.
+        if indent < 4 && (trimmed.starts_with("```") || trimmed.starts_with("~~~")) {
+            let fc = trimmed.chars().next().unwrap();
+            let flen = trimmed.chars().take_while(|&c| c == fc).count();
+            fence = Some((fc, flen));
+            out.push_str(line);
+            continue;
+        }
+
+        // Indented code block: leave untouched to avoid corrupting source.
+        if line.starts_with("    ") || line.starts_with('\t') {
+            out.push_str(line);
+            continue;
+        }
+
+        transform_line(line, &mut out);
+    }
+
+    out
+}
+
+/// Applies the CJK emphasis fix to a single line, skipping inline code spans.
+fn transform_line(line: &str, out: &mut String) {
+    let chars: Vec<char> = line.chars().collect();
+    let n = chars.len();
+    let mut i = 0;
+    let mut text_start = 0;
+
+    while i < n {
+        if chars[i] == '`' {
+            // Length of this backtick run.
+            let mut j = i;
+            while j < n && chars[j] == '`' {
+                j += 1;
+            }
+            let run_len = j - i;
+
+            // Find a matching closing backtick run of the same length.
+            let mut k = j;
+            let mut close: Option<usize> = None;
+            while k < n {
+                if chars[k] == '`' {
+                    let mut m = k;
+                    while m < n && chars[m] == '`' {
+                        m += 1;
+                    }
+                    if m - k == run_len {
+                        close = Some(m);
+                        break;
+                    }
+                    k = m;
+                } else {
+                    k += 1;
+                }
+            }
+
+            if let Some(end) = close {
+                // Transform the text before the code span, then copy the code
+                // span (delimiters included) verbatim.
+                transform_segment(&chars[text_start..i], out);
+                out.extend(&chars[i..end]);
+                i = end;
+                text_start = end;
+            } else {
+                // No closing run: treat the backticks as literal text.
+                i = j;
+            }
+        } else {
+            i += 1;
+        }
+    }
+
+    transform_segment(&chars[text_start..n], out);
+}
+
+/// Inserts zero-width spaces around emphasis delimiter runs that are wedged
+/// between a CJK character and a punctuation character within a plain-text
+/// (non-code) segment.
+fn transform_segment(seg: &[char], out: &mut String) {
+    let n = seg.len();
+    let mut i = 0;
+
+    while i < n {
+        let c = seg[i];
+        if c == '*' || c == '_' {
+            let start = i;
+            let mut j = i;
+            while j < n && seg[j] == c {
+                j += 1;
+            }
+
+            let prev = if start > 0 { Some(seg[start - 1]) } else { None };
+            let next = seg.get(j).copied();
+
+            // A backslash-escaped delimiter is not an emphasis marker.
+            let escaped = prev == Some('\\');
+
+            if !escaped {
+                let prev_cjk = prev.is_some_and(is_cjk);
+                let next_cjk = next.is_some_and(is_cjk);
+                let prev_punct = prev.is_some_and(is_md_punct);
+                let next_punct = next.is_some_and(is_md_punct);
+
+                if prev_punct && next_cjk {
+                    // e.g. `)**라` — break the punctuation/run adjacency.
+                    out.push(ZWSP);
+                    out.extend(&seg[start..j]);
+                } else if prev_cjk && next_punct {
+                    // e.g. `어**(` — break the run/punctuation adjacency.
+                    out.extend(&seg[start..j]);
+                    out.push(ZWSP);
+                } else {
+                    out.extend(&seg[start..j]);
+                }
+            } else {
+                out.extend(&seg[start..j]);
+            }
+
+            i = j;
+        } else {
+            out.push(c);
+            i += 1;
+        }
+    }
 }
 
 fn enhance_footnotes(html: &str) -> String {
@@ -203,6 +413,35 @@ mod tests {
         assert_eq!(html.matches(r##"href="#note" aria-label="각주 1 보기">[1]"##).count(), 2);
         assert!(html.contains(r##"href="#fnref-note-2""##));
         assert!(html.contains(">↑2</a>"));
+    }
+
+    #[test]
+    fn renders_bold_when_closing_delim_is_punct_then_cjk() {
+        // Closing `**` preceded by `)` and immediately followed by a CJK letter.
+        // Plain CommonMark leaves the `**` literal; the CJK fix must recover it.
+        for input in [
+            "**페이지 테이블(Page Table)**부터 등장한다.",
+            "이것은 **가상 메모리(Virtual Memory)**라는 아이디어다.",
+        ] {
+            let html = render(input);
+            assert!(html.contains("<strong>"), "no <strong> for {input:?}: {html}");
+            assert!(html.contains("</strong>"), "no </strong> for {input:?}: {html}");
+            assert!(!html.contains("**"), "literal ** leaked for {input:?}: {html}");
+        }
+    }
+
+    #[test]
+    fn cjk_fix_does_not_touch_inline_code() {
+        let html = render("`a)**b`를 보라");
+        assert!(html.contains("<code>"), "got: {html}");
+        assert!(html.contains("**"), "inline code asterisks were altered: {html}");
+        assert!(!html.contains("<strong>"), "got: {html}");
+    }
+
+    #[test]
+    fn cjk_fix_preserves_plain_ascii_bold() {
+        let html = render("Hello **world** and `code`");
+        assert!(html.contains("<strong>world</strong>"), "got: {html}");
     }
 
     #[test]
